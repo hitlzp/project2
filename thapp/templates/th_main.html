@@ -152,6 +152,8 @@ form{position:absolute;}
 			<dd><a href="javascript:void(0)" onclick = "mark()">小班课程</a></dd>
 			<dd><a href="javascript:void(0)" onclick = "mark2()">大班课程</a></dd>
 			<dd><a href="javascript:void(0)" onclick = "maketable()">评分表格</a></dd>
+			<dd><a href="javascript:void(0)" data-toggle="modal" data-target="#templatemo_modal4" onclick = "selectclass6()">随机工具</a></dd>
+			
 		</dl>
 		
 		<dl class="custom">
@@ -632,6 +634,48 @@ $(function(){
 	</div>
 </div>
 <!--课程管理 end-->
+
+<!--随机 start-->
+<div class="modal fade" id="templatemo_modal4" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">随机</h4>
+
+				<div class = "managecoursecss">
+					<nav class="navbar navbar-default" role="navigation">
+						<div class="container-fluid">
+						<div>
+							<ul class="nav navbar-nav">
+								<li id = "ppp" class="active" style = "position:absolute;width:49%"><a href="javascript:void(0)" style = "font-size: 17px;" onclick = "randgroup()">随机小组</a></li>
+								<li id = "ppp2" style = "position:absolute;left:50%;width:49%"><a href="javascript:void(0)" style = "font-size: 17px;" onclick = "randstu()">随机学生</a></li>
+							</ul>
+						</div>
+						</div>
+					</nav>
+					<div>
+					<input type="text" id="oknum" name="oknum" value="" style = "position: absolute;border: 0px;width: 100%;height: 50%;font-size: 50px;text-align: center;">
+					</div>
+					<div style = "position: absolute;width: 50%;bottom: 8%;display: inline-block;">
+						<select id="selectcourse6" class="styled-select" style = "display:inline-block;width:49%;height:30px" data-style="btn-inverse" onchange= "selectclass6()"> 
+									<option value = -1 selected>课程列表
+									{% for c in all_course %}
+										<option value ={{c.id}}>{{c.cname}}</option>
+									{% endfor %}
+									
+						</select>
+						<select id = "rtrt6"  style = "width:49%;height:30px">
+						</select>
+					</div>
+					<button type="button" class = "btn btn-primary" style = "width:15%;position:absolute;left:65%;bottom:8%" onclick = "startrand()">开始</button>
+					<button type="button" class = "btn btn-primary" style = "width:15%;position:absolute;left:84%;bottom:8%" onclick = "endrand()">停止</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--随机 end-->
 <script type="text/javascript">
     $("#datetimepicker").datetimepicker({
         format: 'yyyy-mm-dd hh:ii',

@@ -16,7 +16,7 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from thapp.views import main, logout, Addcourse, Mycourse, CheckedCourse, ChangeCourse,  Editclass,\
 Myclas, MGroup, SaveGroup, ShowGroup,Stutenttable, Showmodel,showtable,showteatable,endmark, showgradetable, class_mark,\
-sendgradetable,Myclas2, isparty,savepartytable, showisparty
+sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgroup,startrandstu
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
 delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade
@@ -46,7 +46,9 @@ urlpatterns = [
     url(r'^teacher/showpartytable/$', isparty),
     url(r'^teacher/savepartytable/$', savepartytable),
     url(r'^teacher/showpartytable2/$', showisparty),
-    
+    url(r'^teacher/group/rand/$', randgs),
+    url(r'^teacher/startrandgroup/$', startrandgroup),
+    url(r'^teacher/startrandstu/$', startrandstu),
     
     url(r'^student/login/$', main_s),
     url(r'^student/main/$', student_main),

@@ -715,3 +715,47 @@ def sendgradetable(request):
                 if str(course.starttime) < thedatetime:
                     All_class.objects.filter(id = course.id).update(isaval = 1)
             return JsonResponse({"rr":1})
+        
+def randgs(request):
+    myclass = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            all_cls = All_class.objects.filter(course_id = int(courseid))
+            num = len(all_cls)
+            for cls in all_cls:
+                myclass.append(cls.number)
+    content = {"num":num, "myclass":myclass}
+    return JsonResponse(content)
+
+def startrandgroup(request):
+    groupnum = 0
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                all_group = Group.objects.filter(course_id = classid)
+                for group in all_group:
+                    if groupnum < group.groupid:
+                        groupnum = group.groupid
+                return JsonResponse({"allgroup":range(1, groupnum+1)})
+            
+def startrandstu(request):
+    allstudent = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                all_group = Group.objects.filter(course_id = classid)
+                for group in all_group:
+                    stuname = User.objects.filter(id = group.stu_id)[0].username
+                    allstudent.append(stuname)
+                return JsonResponse({"allstudent":allstudent})

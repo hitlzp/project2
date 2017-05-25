@@ -397,13 +397,36 @@ function selectclass5()
 {
 	course = document.getElementById("selectcourse5").value
 	var obj_td =  document.getElementById("rtrt5");
-	$("#rtrt4").empty();
+	$("#rtrt5").empty();
 	var post_data ={
 			"courseid":course,
 			};
 	$.ajax({
 		type : "POST", //要插入数据，所以是POST协议 
 		url : "/teacher/group/largeclass/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
+function selectclass6()
+{
+	course = document.getElementById("selectcourse6").value
+	var obj_td =  document.getElementById("rtrt6");
+	$("#rtrt6").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/group/rand/", //注意结尾的斜线，否则会出现500错误
 		traditional:true,  //加上此项可以传数组
 		data : post_data, //JSON数据
 		success: function(mydata){
@@ -1192,4 +1215,84 @@ function sendtable()
 			}
 		}
 	});
+}
+
+function randgroup()
+{
+	document.getElementById("ppp").className = "active";
+	document.getElementById("ppp2").className = "";
+}
+
+function randstu()
+{
+	document.getElementById("ppp").className = "";
+	document.getElementById("ppp2").className = "active";
+}
+
+var alldataarr = new Array();
+var num = alldataarr.length-1
+var timer
+function startrand()
+{
+	course = document.getElementById("selectcourse6").value
+	theclass = document.getElementById("rtrt6").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	if(document.getElementById("ppp").className == "active")
+	{
+		$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/startrandgroup/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+				alldataarr = []
+				for(var i = 0; i < mydata["allgroup"].length;i++)
+				{
+					alldataarr.push(mydata["allgroup"][i])
+				}
+				num = alldataarr.length-1;
+				start();
+		}
+		});
+	}
+	else
+	{
+		$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/startrandstu/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+				alldataarr = []
+				for(var i = 0; i < mydata["allstudent"].length;i++)
+				{
+					alldataarr.push(mydata["allstudent"][i])
+				}
+				num = alldataarr.length-1;
+				start();
+			}
+		});
+	}
+}
+
+function endrand()
+{
+	clearInterval(timer);
+}
+
+function change(){
+    document.getElementById("oknum").value = alldataarr[GetRnd(0,num)];
+}
+
+function start(){
+    clearInterval(timer);
+    timer = setInterval('change()',50);    //50（毫秒）为变换间隔，越小变换的越快
+}
+
+function GetRnd(min,max){
+    return parseInt(Math.random()*(max-min+1));
 }
