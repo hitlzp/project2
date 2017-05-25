@@ -38,7 +38,6 @@ img{border:none;}
 dl,dt,dd{display:block;margin:0;}
 a{text-decoration:none;}
 
-#bg{background-image:url(/static/img/content/dotted.png);}
 .container1{width:100%;height:100%;margin:auto;}
 
 
@@ -137,7 +136,7 @@ form{position:absolute;}
 
 <div class="container1">
 	<!-- 顶部注册登陆 start-->
-	<div class="pagetop_notice txt_gray"><cite id="login"><a href="javascript:;" id = "courseset" data-toggle="modal" data-target="#templatemo_modal2">|&emsp;登录</a><a href="javascript:;" data-toggle="modal" data-target="#templatemo_modal">|&emsp;注册</a><a href="/logout/">注销</a><span class="login2">{{user}}</span></cite></div>
+	<div class="pagetop_notice txt_gray"><cite id="login"><a id = "ii1" href="javascript:;" id = "courseset" data-toggle="modal" data-target="#templatemo_modal2">|&emsp;登录</a><a href="javascript:;" data-toggle="modal" data-target="#templatemo_modal">|&emsp;注册</a><a href="/logout/">注销</a><span id = "ii3" class="login2">{{user}}</span></cite></div>
 	<!-- 顶部注册登陆 end-->
 	<div class="leftsidebar_box">
 		<div class="line"></div>
@@ -150,13 +149,15 @@ form{position:absolute;}
 		<dl class="channel">
 			<dt>翻转课堂<img src="/static/img/left/select_xl01.png"></dt>
 			<dd class="first_dd"><a href="javascript:void(0)" onclick = "grouping()">分组管理</a></dd>
-			<dd><a href="javascript:void(0)" onclick = "mark()">教师评分</a></dd>
+			<dd><a href="javascript:void(0)" onclick = "mark()">小班课程</a></dd>
+			<dd><a href="javascript:void(0)" onclick = "mark2()">大班课程</a></dd>
 			<dd><a href="javascript:void(0)" onclick = "maketable()">评分表格</a></dd>
 		</dl>
 		
 		<dl class="custom">
 			<dt onClick="changeImage()">成绩管理<img src="/static/img/left/select_xl01.png"></dt>
 			<dd class="first_dd"><a href="javascript:void(0)" onclick = "thegrade()">成绩管理</a></dd>
+			<dd class="first_dd"><a href="javascript:void(0)" onclick = "showBclass()">出席情况</a></dd>
 		</dl>
 	
 		<dl class="syetem_management">
@@ -422,6 +423,59 @@ form{position:absolute;}
 		</div>
 	</div>
 	<!-- 成绩管理 end-->
+	
+	<!-- 大班管理 end-->
+	<div id = "largeclass" class = "main_view" style="display:none">
+		<div class = "thefunc" style = "width:100%; border-bottom: 1px solid #aaa;height:10%">
+			<div style = "width:69%; display:inline-block">
+				<select id="selectcourse4" class="styled-select" style = "display:inline-block;width:48%;height:30px" data-style="btn-inverse" onchange= "selectclass4()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+				</select>
+				<select id = "rtrt4"  style = "width:48%;height:30px" onchange = "selclas2()">
+				</select>
+			</div>
+			<div style ="width:10%;display:inline-block">
+				<div class="checkbox checkbox-primary" style = "display:inline-block;left:1%;width:45%">
+					<input id="checkbox3" class="styled" type="checkbox" checked onclick = "changetype()">
+						<label for="checkbox3">
+						 抽点
+						</label>
+				</div>
+			</div>
+			<button type="button" class = "btn btn-primary" style = "width: 9%;position:absolute;left:80%" onclick = "saveiscome()">保存</button>
+		</div>
+		
+		<div class = "teatable2">
+			<div id = "t2"></div>   
+		</div>
+	</div>
+	<!-- 大班管理 end-->
+	
+	<!-- 出席情况 end-->
+	<div id = "showlargeclass" class = "main_view" style="display:none">
+		<div class = "thefunc" style = "width:100%; height:10%">
+			<div style = "width:100%; display:inline-block">
+				<select id="selectcourse5" class="styled-select" style = "display:inline-block;width:49%;height:30px" data-style="btn-inverse" onchange= "selectclass5()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+				</select>
+				<select id = "rtrt5"  style = "width:49%;height:30px" onchange = "selclas3()">
+				</select>
+			</div>
+		</div>
+		
+		<div class = "teatable2">
+			<div id = "t3"></div>   
+		</div>
+	</div>
+	<!-- 出席情况 end-->
 </div>
 <script type="text/javascript">
 $(".leftsidebar_box dt").css({"background-color":"#3992d0"});
@@ -528,7 +582,7 @@ $(function(){
 									</div>
 									</div>
 								   
-									<div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+									<div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue" onclick = "login()"/></div>
 									</form>
 								</div>
 							</div>

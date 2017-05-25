@@ -3,7 +3,6 @@ window.onload=function(){
       $('.selectpicker').selectpicker();
 		mycourse();
       };
-
 var course_id = -1;
 var theclass = -1;
 function mycourse()
@@ -15,6 +14,8 @@ function mycourse()
 	document.getElementById("ggrade").style.display="none";
 	document.getElementById("thetable").style.display="none";
 	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
 	var post_data ={
 			"cname":1,
 			};
@@ -29,6 +30,11 @@ function mycourse()
 					document.getElementById("haha"+i.toString()).innerHTML ="<li><div class=\"deatil\"><h2>"+mydata["cname"][i-1]+"</h2><a href=\"javascript:void(0)\" onclick =\"choosedcourse("+mydata["courseid"][i-1]+")\">点击进入</a>\
 					</div><img src="+mydata["imgs"][i-1]+" width=\"100%\" height=\"120px\"/><div class = \"coursename\">"+mydata["cname"][i-1]+"</div></li>"
 				}
+				if(mydata["username"] != "")
+				{
+					document.getElementById("ii1").style.display="none";
+					document.getElementById("ii3").innerHTML = mydata["username"];
+				}
 				},
 			});
 }
@@ -41,6 +47,8 @@ function newcourse()
 	document.getElementById("ggrade").style.display="none";
 	document.getElementById("thetable").style.display="none";
 	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
 }
 
 function choosedcourse(event)
@@ -262,6 +270,8 @@ function grouping()//学生分组
 	document.getElementById("thetable").style.display="none";
 	document.getElementById("ggrade").style.display="none";
 	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
 }
 
 				
@@ -357,6 +367,66 @@ function selectclass3()
 			document.getElementById("t1").innerHTML = str;
 		}
 	});
+}
+
+
+function selectclass4()
+{
+	course = document.getElementById("selectcourse4").value
+	var obj_td =  document.getElementById("rtrt4");
+	$("#rtrt4").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/group/largeclass/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
+function selectclass5()
+{
+	course = document.getElementById("selectcourse5").value
+	var obj_td =  document.getElementById("rtrt5");
+	$("#rtrt4").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/group/largeclass/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
+function showBclass()
+{
+	document.getElementById("courseadded").style.display="none";//隐藏
+	document.getElementById("thisclass").style.display="none";
+	document.getElementById("myc").style.display="none";
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("thetable").style.display="none";
+	document.getElementById("ggrade").style.display="none";
+	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="";
 }
 
 var thecourse = -1;
@@ -472,7 +542,7 @@ function scls()
 }
 
 
-function mark()//评分
+function mark()//小班管理
 {
 	
 	
@@ -483,6 +553,23 @@ function mark()//评分
 	document.getElementById("ggrade").style.display="";
 	document.getElementById("thetable").style.display="none";
 	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
+}
+
+function mark2()//大班管理
+{
+	
+	
+	document.getElementById("myc").style.display="none";//显示
+	document.getElementById("courseadded").style.display="none";//隐藏
+	document.getElementById("thisclass").style.display="none";
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("ggrade").style.display="none";
+	document.getElementById("thetable").style.display="none";
+	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="";
+	document.getElementById("showlargeclass").style.display="none";
 }
 
 function maketable()//设计评分表格
@@ -494,6 +581,8 @@ function maketable()//设计评分表格
 	document.getElementById("ggrade").style.display="none";
 	document.getElementById("thetable").style.display="";
 	document.getElementById("mygrade").style.display="none";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
 	
 	$.ajax({
 		type : "POST", //要插入数据，所以是POST协议 
@@ -742,6 +831,8 @@ function thegrade()
 	document.getElementById("mygrade").style.display="";
 	document.getElementById("subm2").style.display="none";
 	document.getElementById("stuavail").style.display="";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
 	selectclass3();
 }
 
@@ -845,6 +936,181 @@ function selclas()
 				str = "";
 			}
 			document.getElementById("t1").innerHTML = str;
+		}
+	});
+}
+
+
+var iscome = new Array(); 
+function selclas2()
+{
+	course = document.getElementById("selectcourse4").value
+	theclass = document.getElementById("rtrt4").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/showpartytable/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			thgroupmark = document.getElementById("checkbox3").checked
+			
+			str = "<div style = \"position:absolute;width:100%;top:5%\"><div class=\"panel-group\"><div class=\"panel panel-primary\"></div><table id = \"table30\" class=\"table table-bordered table-hover\"><thead><tr class=\"success\"><th>#</th><th>学生编号</th><th>学生姓名</th><th></th></tr></thead><tbody>";
+			
+			if(thgroupmark == true)
+			{
+				for(var j = 0;j < mydata["sum"];j++)
+				{
+					str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["stuid"][j]+10000000).toString()+"</td><td>"+mydata["stuname"][j]+"</td><td><a class = \"glyphicon glyphicon-ok\" id = \"qq"+(j+1).toString()+"\"></a></td></tr>";
+					iscome[j+1] = thgroupmark;
+				}
+			}
+			else
+			{
+				for(var j = 0;j < mydata["sum"];j++)
+				{
+					str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["stuid"][j]+10000000).toString()+"</td><td>"+mydata["stuname"][j]+"</td><td><a class = \"glyphicon glyphicon-remove\" id = \""+(j+1).toString()+"\"></a></td></tr>";
+					iscome[j+1] = thgroupmark;
+				}
+			}
+			
+			
+			str += "</tbody></table></div></div></div>";
+			if(mydata["sum"] == 0)
+			{
+				str = "";
+			}
+			document.getElementById("t2").innerHTML = str;
+			
+			addcheckbox2();
+		}
+	});
+}
+
+function addcheckbox2(){  //为小班表格前添加复选框
+	function initTableCheckbox() {  
+        var $thr = $('#table30 thead tr');  
+        var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /style = \"display:none\"></th>');  
+         /*将全选/反选复选框添加到表头最前，即增加一列*/  
+        $thr.prepend($checkAllTh);  
+        /*“全选/反选”复选框*/  
+        var $checkAll = $thr.find('input');  
+        $checkAll.click(function(event){  
+        /*将所有行的选中状态设成全选框的选中状态*/ 
+        $tbr.find('input').prop('checked',$(this).prop('checked'));  
+        /*并调整所有选中行的CSS样式*/  
+        if ($(this).prop('checked')) {  
+            $tbr.find('input').parent().parent().addClass('warning');  
+        } else{  
+                $tbr.find('input').parent().parent().removeClass('warning');  
+              }  
+        /*阻止向上冒泡，以防再次触发点击操作*/  
+        event.stopPropagation();  
+        });  
+        /*点击全选框所在单元格时也触发全选框的点击操作*/  
+        $checkAllTh.click(function(){  
+        $(this).find('input').click(); 
+        });  
+        var $tbr = $('#table30 tbody tr');  
+        var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /style = \"display:none\"></td>');  
+        /*每一行都在最前面插入一个选中复选框的单元格*/  
+        $tbr.prepend($checkItemTd);  
+        /*点击每一行的选中复选框时*/  
+        $tbr.find('input').click(function(event){ 		
+		$(this).each(function(){
+		var val = $(this).parent().next().text();
+		theclass = val;
+		if(iscome[val] == true)
+		{
+			iscome[val] = false;
+			document.getElementById("qq"+(val).toString()).className = "glyphicon glyphicon-remove";
+		}
+		else
+		{
+			iscome[val] = true;
+			document.getElementById("qq"+(val).toString()).className = "glyphicon glyphicon-ok";
+		}
+		});
+         /*调整选中行的CSS样式*/  
+        $(this).parent().parent().toggleClass('warning');  
+        /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/  
+        $checkAll.prop('checked',$tbr.find('input:checked').length == $tbr.length ? true : false);  
+         /*阻止向上冒泡，以防再次触发点击操作*/  
+        event.stopPropagation();  
+        });  
+        /*点击每一行时也触发该行的选中操作*/  
+		$tbr.click(function(){  
+                    $(this).find('input').click(); 
+                });  
+        }  
+        initTableCheckbox();  
+}
+
+function changetype()
+{
+	thgroupmark = document.getElementById("checkbox3").checked
+	selclas2();
+}
+
+function selclas3()
+{
+	course = document.getElementById("selectcourse5").value
+	theclass = document.getElementById("rtrt5").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/showpartytable2/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			
+			str = "<div style = \"position:absolute;width:100%;top:5%\"><div class=\"panel-group\"><div class=\"panel panel-primary\"></div><table  class=\"table table-bordered table-hover\"><thead><tr class=\"success\"><th>#</th><th>学生编号</th><th>学生姓名</th><th>出席情况</th></tr></thead><tbody>";
+			
+			for(var j = 0;j < mydata["sum"];j++)
+			{
+				str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["stuid"][j]+10000000).toString()+"</td><td>"+mydata["stuname"][j]+"</td>";
+				if (mydata["isparty"][j] == 1)
+				{
+					str+= "<td><a class = \"glyphicon glyphicon-ok\" ></a></td>";
+				}
+				str += "</tr>";
+			}
+			
+			str += "</tbody></table></div></div></div>";
+			if(mydata["sum"] == 0)
+			{
+				str = "";
+			}
+			document.getElementById("t3").innerHTML = str;
+		}
+	});
+}
+
+function saveiscome()
+{
+	course = document.getElementById("selectcourse4").value
+	theclass = document.getElementById("rtrt4").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		"iscome":iscome,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/savepartytable/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			alert("保存成功");
 		}
 	});
 }

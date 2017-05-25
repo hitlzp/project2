@@ -14,9 +14,9 @@ Including another URLconf
 """
 from django.conf.urls import include, url
 from django.contrib import admin
-from thapp.views import main, logout, uploadImg, showImg, Addcourse, Mycourse, CheckedCourse, ChangeCourse,  Editclass,\
+from thapp.views import main, logout, Addcourse, Mycourse, CheckedCourse, ChangeCourse,  Editclass,\
 Myclas, MGroup, SaveGroup, ShowGroup,Stutenttable, Showmodel,showtable,showteatable,endmark, showgradetable, class_mark,\
-sendgradetable
+sendgradetable,Myclas2, isparty,savepartytable, showisparty
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
 delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade
@@ -28,13 +28,12 @@ urlpatterns = [
     url(r'^$', main),
     url(r'^logout/$', logout),
     url(r'^teacher/addcourse/$', Addcourse),
-    url(r'^upload', uploadImg),
-    url(r'^show', showImg),
     url(r'^teacher/mycourse/$', Mycourse),
     url(r'^teacher/mycourse/checked/$', CheckedCourse),
     url(r'^teacher/mycourse/change/$', ChangeCourse),
     url(r'^teacher/mycourse/editclass/$', Editclass),
     url(r'^teacher/group/$', Myclas),
+    url(r'^teacher/group/largeclass/$', Myclas2),
     url(r'^teacher/makegroup/$', MGroup),
     url(r'^teacher/savegroup/$', SaveGroup),
     url(r'^teacher/showgroup/$', ShowGroup),
@@ -44,6 +43,9 @@ urlpatterns = [
     url(r'^teacher/showteatable/$', showteatable),
     url(r'^teacher/classmark/$', class_mark),
     url(r'^teacher/sendgradetable/$', sendgradetable),
+    url(r'^teacher/showpartytable/$', isparty),
+    url(r'^teacher/savepartytable/$', savepartytable),
+    url(r'^teacher/showpartytable2/$', showisparty),
     
     
     url(r'^student/login/$', main_s),

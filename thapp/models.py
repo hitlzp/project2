@@ -33,6 +33,7 @@ class Group(models.Model):
     thmark2 = models.TextField(default = '')
     isparty = models.IntegerField(default=0)#是否参加了本轮评分
     classmark = models.CharField(max_length=1, default = '')
+    isaval = models.IntegerField(default=1)#主要针对大班点名，为0时代表缺席
     
 class Stutable(models.Model):#学生评分表格
     teacher = models.ForeignKey(User)

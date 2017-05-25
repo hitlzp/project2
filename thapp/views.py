@@ -19,8 +19,10 @@ import random
 def main(request):#教师主页
     c = "您还未登陆！"
     if request.user.id:
-        name = User.objects.filter(id = request.user.id)[0].username
-        c = name
+        stu = User.objects.filter(id = request.user.id)[0]
+        c = stu.username
+        if stu.first_name == 's':
+            return HttpResponseRedirect("/student/main/")
     if request.POST:
         post = request.POST
         if post["to"] == 'log':
@@ -57,32 +59,10 @@ def login_t(request):#教师登陆
         if (user is not None) and (user.first_name == 't'):
             if user.is_active:
                 auth.login(request, user)
-       
+
 def logout(request):#注销
     auth.logout(request)
     return HttpResponseRedirect("/")
-
-
-
-def uploadImg(request):
-    if request.method == 'POST':
-        new_img = Course(
-            img=request.FILES.get('img'),
-            teacher_id = 1,
-        )
-        new_img.save()
-
-    return render_to_response("uploadimg.html")
-
-
-def showImg(request):
-    imgs = Course.objects.filter(id = 20)
-    content = {
-        'imgs':imgs,
-    }
-    for i in imgs:
-        print i.img
-    return render_to_response("showimg.html", content)
 
 def Addcourse(request):
     if request.POST:
@@ -133,15 +113,19 @@ def Mycourse(request):#教师所有课程的图片列表
     imgs = []#课程封面
     cname = []#课程名称
     courseid = []#课程编号
+    username = ""
     if request.POST:
         thid = request.user.id
+        name = User.objects.filter(id = thid)
+        if name:
+            username = name[0].username
         if request.is_ajax():
             all_course = Course.objects.filter(teacher_id = thid)
             for course in all_course:
                 imgs.append(course.img.url)
                 cname.append(course.cname)
                 courseid.append(course.id)
-    content = {"rr":1, "imgs":imgs, "nums":len(all_course), "cname":cname, "courseid":courseid}
+    content = {"rr":1, "imgs":imgs, "nums":len(all_course), "cname":cname, "courseid":courseid,"username":username}
     return JsonResponse(content)
 
 def CheckedCourse(request):#在我的课程中选择某一个课程
@@ -302,7 +286,7 @@ def Myclas(request):#分组时课程选择课程列表信息
                         mincount = mincount + 1
                 minclassnum.append(mincount)
                 for a3 in all2:
-                    if a3.course_id in allmaxclassid:
+                    if a3.course_id in allmaxclassid and a3.isaval == 1:
                         maxcount = maxcount + 1
                 maxclassnum.append(maxcount)
             
@@ -318,6 +302,18 @@ def Myclas(request):#分组时课程选择课程列表信息
     content = {"num":num, "myclass":myclass, "stuid":stuid, "stuname":stuname, "minclassnum":minclassnum, \
                "maxclassnum":maxclassnum, "sum":len(stuid), "classgrade":classgrade, "allminclassnumber":allminclassnumber,\
                "classsum":len(allminclassnumber)}
+    return JsonResponse(content)
+
+def Myclas2(request):#分组时课程选择课程列表信息
+    myclass = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            all_cls = All_class.objects.filter(course_id = int(courseid), type = '大班')
+            num = len(all_cls)
+            for cls in all_cls:
+                myclass.append(cls.number)
+    content = {"num":num, "myclass":myclass}
     return JsonResponse(content)
 
 def MGroup(request):#教师点击分组按钮
@@ -631,7 +627,67 @@ def showgradetable(request):
                            "th":th, "thgroup":thgroup, "sum":len(stuid), "stuid":stuid, "stuname":stuname, "flag":flag}
                 return JsonResponse(content)
 
+def isparty(request):
+    stuid = []
+    stuname = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                print classid
+                all_class = Group.objects.filter(course_id = classid)
+                for cls in all_class:
+                    stuid.append(cls.stu_id)
+                    stuname.append(User.objects.filter(id = cls.stu_id)[0].username)
+                content = {"stuid":stuid, "stuname":stuname, "sum":len(stuid)}
+                return JsonResponse(content)
 
+def showisparty(request):
+    stuid = []
+    stuname = []
+    isparty = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                print classid
+                all_class = Group.objects.filter(course_id = classid)
+                for cls in all_class:
+                    stuid.append(cls.stu_id)
+                    stuname.append(User.objects.filter(id = cls.stu_id)[0].username)
+                    isparty.append(cls.isaval)
+                content = {"stuid":stuid, "stuname":stuname, "sum":len(stuid), "isparty":isparty}
+                return JsonResponse(content)
+                  
+def savepartytable(request):
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            iscome = request.POST.getlist('iscome')
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                print classid
+                all_class = Group.objects.filter(course_id = classid)
+                for i in range(1, len(all_class)+1):
+                    if str(iscome[i]) == 'true':
+                        Group.objects.filter(id = all_class[i-1].id).update(isaval = 1)
+                    else:
+                        Group.objects.filter(id = all_class[i-1].id).update(isaval = 0)
+                
+                return JsonResponse({"rr":1})
+            
+            
 def class_mark(request):
     if request.POST:
         if request.is_ajax():
