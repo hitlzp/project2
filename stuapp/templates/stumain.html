@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>翻转课堂</title>
+
+
+
+<!--必要样式-->
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link type="text/css" href="/static/css/style.css" rel="stylesheet">
+<link href="/static/css/component.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/css/xcConfirm.css"/>
+
+
+<script type="text/javascript" src="/static/js/jquery2.js"></script>
+<script type="text/javascript" src="/static/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dlmenu.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/stumain.js"></script>
+
+
+
+</head>
+<body>
+
+<header class="header">
+	<a class="logo"></a>
+	<div id="dl-menu" class="dl-menuwrapper">
+		<button id="dl-menu-button">Open Menu</button>
+		<ul class="dl-menu">
+			<li><a href="/student/main/">首页</a></li>
+			<li><a href="javascript:void(0)" onclick = "mycourse()">我的课程</a></li>
+			<li><a href="javascript:void(0)" onclick = "showgroup()">翻转课堂</a></li>
+			<li><a href="javascript:void(0)" onclick = "mygrade()">成绩</a></li>
+			<li>
+				<a href="Line">其他</a>
+				<ul class="dl-submenu">
+					<li class="dl-back"><a href="#">返回上一级</a></li>
+					<li><a href="http://www.jb51.net/">其他</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</header>
+
+<div class = "main_view">
+	<!--所有课程 start-->
+	<div id = "all_course">
+		<div id = "thecour2"></div>
+	</div>
+	<!--所有课程 end-->
+	
+	<!--我的课程 start-->
+	<div id = "mycour" style="display:none">
+		<div id = "thecour"></div>
+	</div>
+	<!--我的课程 end-->
+	
+	<!--课程详细信息 start-->
+	<div id = "mycl" style="display:none">
+		<br></br>
+		<div id = "listmyclass"></div>
+		<div id = "listmyclass2"></div>
+		<br></br>
+		<a style = "color:red">备注：</a>
+		<a id = "beizhu" style = "color:red"></a>
+	</div>
+	<!--课程详细信息 end-->
+	
+	<!-- 分组-->
+	<div id = "groupbox" style="display:none">
+		<div style = "position:absolute;width:90%;left:6%">
+			<br></br><br></br>
+			<div id = "grouped" style = "min-height:768px"></div>
+			<div class = "btwid">
+				<button type="button" class = "btn btn-success" style = "width: 90%" onclick = "stugrade()">评分</button>
+			</div>
+		</div>
+		<div style = "position:absolute;width:100%;top:20px;">
+			<div style = "width:100%;float:left;background-color: #fff;">
+				<div style= "width:100%;display:inline-block">
+					<div class="styled-select" style = "display:inline-block;width:49%">
+						<select id="selectcourse" onchange= "selectclass()" style = "width:99%"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+						</select>
+					</div>
+					<div class="styled-select" style = "display:inline-block;width:49%" >
+						<select id = "rtrt" onchange= "scls()" style = "width:99%">
+							<option value = -1 selected>请选择	
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 分组 end-->
+	
+	<!--查看成绩 start-->
+	<div id = "sg" style="display:none;position: absolute;width: 100%;top: 15px;">
+		<div id = "showmygrade"></div>
+	</div>
+	<!--查看成绩 end-->
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$( '#dl-menu' ).dlmenu();
+});
+</script>
+
+<!--评分表 start-->
+<button type="button" id = "qqqq" data-toggle="modal" data-target="#templatemo_modal" style = "display:none"></button>
+<div class="modal fade" id="templatemo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">评分</h4>
+
+				<div class = "managecoursecss" id = "rrrr">
+					<div class = "showtable">
+						<div style = "font-size: 20px;position:absolute;left:20%">翻转课堂学生评价记录表</div>
+						<div id = "pretable" style = "position:absolute;left:5%;width:94%;top:10%"></div>
+					</div>
+				</div>
+				<button type="button" class = "btn btn-success" style = "width: 90%" data-dismiss="modal" onclick = "all_grade()">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--评分表 end-->
+</body>
+</html>

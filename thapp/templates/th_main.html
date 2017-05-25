@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="/static/css/login.css" rel="stylesheet" type="text/css">
+<link href="/static/css/picturelist.css" rel="stylesheet" type="text/css">
+<link href="/static/css/bootstrap-select.css" rel="stylesheet" type="text/css">
+<link href="/static/css/bootstrap-select.min.css" rel="stylesheet" type="text/css">
+<link href="/static/css/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+<link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
+<link href="/static/css/build.css" rel="stylesheet" type="text/css">
+
+
+<script type="text/javascript" src="/static/js/placeImage.js"></script>
+<script type="text/javascript" src="/static/js/jquery.js"></script>
+<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/login.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script type="text/javascript" src="/static/js/editTable.js" charset="gbk"></script>
+<script type="text/javascript" src="/static/js/bootstrap-select.min.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-select.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
+<script type="text/javascript" src="/static/js/jquery.table2excel.js"></script>
+<script type="text/javascript" src="/static/js/jquery.table2excel.min.js"></script>
+<title>翻转课堂</title>
+<head>
+
+<style type="text/css">
+body{margin:0;padding:0;overflow-x:hidden;}
+html, body{height:100%;}
+img{border:none;}
+*{font-family:'微软雅黑';font-size:12px;color:#626262;}
+dl,dt,dd{display:block;margin:0;}
+a{text-decoration:none;}
+
+#bg{background-image:url(/static/img/content/dotted.png);}
+.container1{width:100%;height:100%;margin:auto;}
+
+
+.styled-select select {
+   background: transparent;
+   width: 100%;
+   padding: 5px;
+   font-size: 16px;
+   border: 1px solid #ccc;
+   height: 34px;
+}
+
+/*left*/
+.leftsidebar_box{width:14%;height:auto !important;overflow:visible !important;position:fixed;height:100% !important;background-color:#3992d0;}
+.line{height:2px;width:100%;background-image:url(/static/img/left/line_bg.png);background-repeat:repeat-x;}
+.leftsidebar_box dt{padding-left:40px;padding-right:10px;background-repeat:no-repeat;background-position:10px center;color:#f5f5f5;font-size:14px;position:relative;line-height:48px;cursor:pointer;}
+.leftsidebar_box dd{background-color:#317eb4;padding-left:40px;}
+.leftsidebar_box dd a{color:#f5f5f5;line-height:20px;}
+.leftsidebar_box dt img{position:absolute;right:10px;top:20px;}
+.system_log dt{background-image:url(/static/img/left/system.png)}
+.custom dt{background-image:url(/static/img/left/custom.png)}
+.channel dt{background-image:url(/static/img/left/channel.png)}
+.app dt{background-image:url(/static/img/left/app.png)}
+.cloud dt{background-image:url(/static/img/left/cloud.png)}
+.syetem_management dt{background-image:url(/static/img/left/syetem_management.png)}
+.source dt{background-image:url(/static/img/left/source.png)}
+.statistics dt{background-image:url(/static/img/left/statistics.png)}
+.leftsidebar_box dl dd:last-child{padding-bottom:10px;}
+
+/*top*/
+./*top notice*/
+.pagetop_notice{ width:980px; margin:0 auto; height:28px; background:#fff; line-height:28px; text-align:left; text-align:right; margin-bottom:2px;}
+.pagetop_notice{padding-bottom:3px\9;}
+.pagetop_notice a{float:right;padding:0 6px; text-decoration:none;}
+.pagetop_notice a:hover,
+.pagetop_notice a:active{color:#f00;}
+pagetop_notice div{padding-top:2px;}
+.pagetop_notice span{margin:0;}
+.pagetop_notice span.login2{float: right;margin-right:6px; display:inline; color:#f00;}
+.pagetop_notice span em{color:#f00; padding:0 6px 0 3px;margin-right: 20px;}
+.pagetop_notice span a.notice_num{display:none; width:auto; height:11px; margin:0 20px 0 0; padding:2px 5px; border-radius:3px; -webkit-border-radius:3px; -moz-border-radius:3px; -khtml-border-radius:3px; background:#ddd; color:#666 !important; line-height:11px; text-decoration:none;}
+.pagetop_notice span a{padding:0 5px;}
+.pagetop_notice span .red{color:#f00;}
+.pagetop_notice img{margin:0 2px -3px;float:right;}
+.pagetop_notice .search{width:178px; height:20px; margin:2px 0 2px 5px; padding:2px 3px; border:solid 1px #ccc; background:#fff url(http://c.csdnimg.cn/www/images/ico_sear_top.gif) no-repeat 160px 2px; color:#999; line-height:14px; vertical-align:middle;}
+.pagetop_notice .search{margin-top:2px\9; margin-bottom:0\9;padding-top:2px\9;}
+
+
+/*main*/
+.main_view{background:#fff;width: 81%;position: relative;left: 17%;top: 7%;height: 100%}
+.topbox{width:100%;position:absolute;height:100px}
+.mainbox{width:100%;position:absolute;height:auto;top:130px}
+.mainbox2{background-color:#ddd;width:80%;position:absolute;height:auto;top:20px;left:16%}
+
+
+/*picture*/
+form{position:absolute;}
+	.upload{position: absolute;left: 20%;top: 35%;font-family: cursive;font-size: 15px;}
+	.inputpicture{height:100px;width:100px;opacity:0;filter:alpha(opacity=0);cursor:pointer;position: absolute;top: 9%;left: 19.5%;z-index:998;}
+	
+/*topbiaodan*/
+.topbiaodandiv{position:absolute;left:35%}	
+
+.myinput{width:200px;height:30px;position: absolute;top: 15px;}
+.myinput2{width:200px;height:30px;position: absolute;top: 18px;left:300px}
+
+.coursename{font-size: 15px;text-align: center;}
+
+.managecoursecss{background: #fff;position: relative;width: 90%;left: 5%;top: 15px;height: 400px;}
+.rightslider{position: fixed;
+    width: 15%;
+    height: 80%;
+    left: 85%;
+    top: 10%;
+    /* border-style: solid; */
+    /* border-color: #3992d0; */
+    border: solid 1px #3992d0;}
+
+.thefunc{    position: absolute;
+    width: 80%;
+    height: 15%;
+    top: 0;
+    left: 0;}
+	
+.showtable{position:absolute;width:80%;height:200%;top:18%;left:1%;border: 1px solid #808080;}
+.teatable{position:absolute;width:85%;height:50%;border: 1px solid #aaa;top:10%;height:100%;left:7%}
+.teatable2{position:absolute;width:100%;height:50%;top:10%;height:100%;left:0}
+</style>
+
+
+
+
+</head>
+
+<body id="bg">
+
+<div class="container1">
+	<!-- 顶部注册登陆 start-->
+	<div class="pagetop_notice txt_gray"><cite id="login"><a href="javascript:;" id = "courseset" data-toggle="modal" data-target="#templatemo_modal2">|&emsp;登录</a><a href="javascript:;" data-toggle="modal" data-target="#templatemo_modal">|&emsp;注册</a><a href="/logout/">注销</a><span class="login2">{{user}}</span></cite></div>
+	<!-- 顶部注册登陆 end-->
+	<div class="leftsidebar_box">
+		<div class="line"></div>
+		<dl class="system_log">
+			<dt onClick="changeImage()">课程管理<img src="/static/img/left/select_xl01.png"></dt>
+			<dd class="first_dd"><a href="javascript:void(0)" onclick = "mycourse()">我的课程</a></dd>
+			<dd><a href="javascript:void(0)" onclick = "newcourse()">新增课程</a></dd>
+		</dl>
+		
+		<dl class="channel">
+			<dt>翻转课堂<img src="/static/img/left/select_xl01.png"></dt>
+			<dd class="first_dd"><a href="javascript:void(0)" onclick = "grouping()">分组管理</a></dd>
+			<dd><a href="javascript:void(0)" onclick = "mark()">教师评分</a></dd>
+			<dd><a href="javascript:void(0)" onclick = "maketable()">评分表格</a></dd>
+		</dl>
+		
+		<dl class="custom">
+			<dt onClick="changeImage()">成绩管理<img src="/static/img/left/select_xl01.png"></dt>
+			<dd class="first_dd"><a href="javascript:void(0)" onclick = "thegrade()">成绩管理</a></dd>
+		</dl>
+	
+		<dl class="syetem_management">
+			<dt>其他<img src="/static/img/left/select_xl01.png"></dt>
+			<dd class="first_dd"><a href="#">其他</a></dd>
+		</dl>
+	</div>
+	<!-- 新增课程 start-->
+	<div id = "courseadded" class = "main_view">
+		<div class = "topbox">
+			<div style = "float:left">
+				<form enctype="multipart/form-data" name="form1">
+					<input class = "inputpicture" id="f" type="file" name="img" onchange="change()"/>
+					<div id = "ii" class="upload">点击上传图片</div>
+					<p>
+						<img id="preview" alt="" name="pic" width="150px" height="100px"/>
+					</p>
+				</form>
+			</div>
+			
+			<div class = "topbiaodandiv">
+				<form action="" method="post">
+				
+				<div class = "myinput">
+				<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">课程名称:</a></label> 
+				<input  class = "form-control" type="text" id="cname" name="cname" value="" /><br /> 
+				</div>
+				
+				<div class = "myinput2">
+				<label for="thname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">授课教师:</a></label> 
+				<input  class = "form-control" type="text" id="thname" name="thname" value="" /><br /> 
+				</div>
+				</form> 
+			</div>
+	
+		</div>
+		
+		<div class = "mainbox">
+			<div class="container" style = "width:100%"> 
+				<div class="bs-example" data-example-id="hoverable-table"> 
+					<table id = "www2" class="table table-hover editable"> 
+					<thead> 
+						<tr> 
+						<th>序号</th> 
+						<th>小班/大班研讨主题（子主题）</th> 
+						<th>学时</th> 
+						<th>容量</th>
+						<th>小班/大班</th> 
+						<th>操作</th> 
+						</tr> 
+					</thead> 
+						<tbody> 
+							<tr> 
+							<th scope="row">1</th> 
+							<td>第一讲：主题</td> 
+							<td>2</td> 
+							<td>30</td> 
+							<td>小班</td> 
+							<td><!--<a href="javascript:void(0)" class="edit"></a>--></td> 
+							</tr>  
+						</tbody> 
+					</table> 
+				</div> 
+			</div> 	
+		</div>
+		<button type="button" id = "addcourse" class = "btn btn-success" style = "position: fixed;bottom: 10px;width: 7%;left: 90%;">提交</button>
+	</div>
+	<!-- 新增课程 end-->
+	<!-- 我的课程图片列表 start-->
+	<div id = "myc" class = "mainbox2" style="display:none">
+		<div class="box">
+			<ul>
+			{% for course in imgnum %}
+				<div id = "haha{{course}}"></div>
+			{% endfor %}
+			<li>
+			</ul>  
+		</div>
+	</div>
+	<!-- 我的课程图片列表 end-->
+	<!-- 课程编辑-->	
+	<div id = "thisclass" class = "mainbox2" style="display:none"> 
+		<div id = "listmyclass"></div>
+		<div id = "listmyclass2"></div>
+		<div class="panel-group" style = "position:relative">  
+            <div class="panel panel-primary">
+				<div>
+				<a style = "font-family: cursive;font-size: 18px;color: #626262;">规定最少参加次数:</a>
+				</div>
+				<br></br>
+				<div style = "width:40%;display:inline-block">
+					<label for="xclass"><a style = "font-family: cursive;font-size: 18px;color: #626262;">小班：</a></label> 
+					<input type="number" class="form-control" style = "width:49%" min = 1 id="xclass" disabled= true;>
+				</div>
+				<div style = "width:40%;display:inline-block">
+					<label for="bclass"><a style = "font-family: cursive;font-size: 18px;color: #626262;">大班：</a></label> 
+					<input type="number" class="form-control" style = "width:49%" min = 1 id="bclass" disabled= true;>
+				</div> 
+			</div>
+			<button type="button" class = "btn btn-primary" style = "position: absolute;bottom: 10px;width: 8%;left: 80%;" onclick = "editminclass()">编辑</button>
+			<button type="button" class = "btn btn-success" style = "position: absolute;bottom: 10px;width: 8%;left: 90%;" onclick = "saveminclass()">保存</button>
+		</div>
+	</div>
+	<!-- 课程编辑 end-->
+	
+	<!-- 分组-->
+	<div class = "main_view" id = "groupbox" style="display:none">
+		<div style = "width:100%;height:40px;background-color: #fff;"><a style = "font-family: cursive;font-size: 25px;color: #3992d0;">当前选课人数：</a>
+			<a id = "stunum" style = "font-family: cursive;font-size: 25px;color: #3992d0;"></a>
+		</div>
+		<div style = "position:absolute;width:100%;float:left">
+			
+			<div id = "grouped"></div>
+			
+		</div>
+		<div style = "position:fixed;width:100%;bottom:10px;">
+			<div style = "width:100%;float:left;background-color: #fff;">
+				<div style= "width:75%;display:inline-block">
+					<div class="styled-select" style = "display:inline-block">
+						<select id="selectcourse" onchange= "selectclass()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+						</select>
+					</div>
+					<div class="styled-select" style = "display:inline-block" >
+						<select id = "rtrt" onchange= "scls()">
+						</select>
+					</div>
+					
+					<div class="styled-select" style = "display:inline-block">
+						<select id = "groupnum">
+							<option value = -1 selected>小组数
+							<option value =3>3</option>
+							<option value =4>4</option>
+							<option value =5>5</option>
+							<option value =6>6</option>
+							<option value =7>7</option>
+							<option value =8>8</option>
+							<option value =9>9</option>
+							<option value =10>10</option>
+						</select>
+					</div>
+				</div>
+				<div style= "position: fixed;left: 80%;width: 100%;display:inline-block">
+					<button type="button" class = "btn btn-primary" style = "width: 8%" onclick = "fenzu()">分组</button>
+					<button type="button" class = "btn btn-success" style = "width: 8%" onclick = "savefenzu()">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 分组 end-->
+	<!-- 评分-->
+	<div class = "main_view" id = "ggrade" style="display:none">
+		<div class = "thefunc" style = "width:100%">
+			<div style = "width:65%; display:inline-block">
+				<select id="selectcourse2" class="styled-select" style = "display:inline-block;width:33%" data-style="btn-inverse" onchange= "selectclass2()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+				</select>
+				<select id = "rtrt2"  style = "width:30%">
+				</select>
+				<select id = "choosedtable" class="styled-select" style = "display:inline-block;width:33%" data-style="btn-inverse">
+						<option value = -1 selected>评价记录表
+							{% for table in all_table %}
+								<option value ={{table.id}}>{{table.tablename}}</option>
+							{% endfor %}
+				</select>
+			</div>
+			
+			<div style ="width:10%;display:inline-block">
+				<div class="checkbox checkbox-primary" style = "display:inline-block;left:1%;width:45%">
+					<input id="checkbox1" class="styled" type="checkbox" checked>
+						<label for="checkbox1">
+						 师评
+						</label>
+				</div>
+				
+				<div class="checkbox checkbox-primary" style = "display:inline-block;left:1%;width:45%">
+					<input id="checkbox2" class="styled" type="checkbox" checked>
+						<label for="checkbox2">
+						 组评
+						</label>
+				</div>
+			</div>
+			<button id = "sg" type="button" class = "btn btn-success" style = "width: 9%;position:absolute;left:82%" onclick = "startmark()">开始评分</button>
+			<button id = "eg" type="button" class='btn btn-danger' style = "width: 9%;position:absolute;left:92%" onclick = "endmark()">评分结束</button>
+		</div>
+		<div class = "teatable">
+				<div style = "font-size: 20px;position:absolute;left:35%">翻转课堂教师评价记录表</div>
+				<div id = "pretable2" style = "position:absolute;left:5%;width:94%;top:10%"></div>
+				
+				
+		</div>
+	</div>
+	<!-- 评分 end-->
+	
+	<!-- 表格-->
+	<div class = "main_view" id = "thetable" style="display:none">
+		<div class = "thefunc" >
+			<div class="checkbox checkbox-info">
+				<div style = "display:inline-block; width:15%">
+					<button type="button" class="btn btn-primary" onclick = "confirmtsth(1)">组内互评</button>
+				</div>
+				<div style = "display:inline-block; width:15%">
+					<button type="button" class="btn btn-primary" onclick = "confirmtsth2(2)">组间互评</button>
+				</div>
+				
+				<div style = "display:inline-block; width:15%">
+					<button type="button" class="btn btn-primary" onclick = "thetables(3, 0)">学生自评</button>
+				</div>
+				
+				<div style = "display:inline-block; width:15%">
+					<button type="button" class="btn btn-primary" onclick = "thetables(4, 0)">特殊评分</button>
+				</div>
+				
+				<div style = "display:inline-block; width:15%">
+					<button type="button" class="btn btn-primary" onclick = "thetables(0, 0)">清除表格</button>
+				</div>
+				
+				<div style = "display:inline-block; width:15%">
+					<button type="button" class="btn btn-primary" onclick = "confirmtsth3(5)">保存评分表</button>
+				</div>
+			</div>
+		</div>
+		<div class = "rightslider">
+			<div id =  "showallpretable" ></div>
+		</div>
+		<div class = "showtable">
+			<div style = "font-size: 20px;position:absolute;left:35%">翻转课堂学生评价记录表</div>
+			<div id = "pretable" style = "position:absolute;left:5%;width:94%;top:10%"></div>
+		</div>
+	</div>
+	<!-- 表格 end-->
+	
+	<!-- 成绩管理 end-->
+	<div id = "mygrade" class = "main_view" style="display:none">
+		<div class = "thefunc" style = "width:100%; border-bottom: 1px solid #aaa;height:10%">
+			<div style = "width:69%; display:inline-block">
+				<select id="selectcourse3" class="styled-select" style = "display:inline-block;width:48%;height:30px" data-style="btn-inverse" onchange= "selectclass3()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+				</select>
+				<select id = "rtrt3"  style = "width:48%;height:30px" onchange = "selclas()">
+				</select>
+			</div>
+			
+			<button id = "subm2" type="button" class = "btn btn-primary" style = "width: 9%;position:absolute;left:70%;display:none" onclick = "submitgrade2()">提交结果</button>
+			<button type="button" class = "btn btn-primary" style = "width: 9%;position:absolute;left:80%" onclick = "exporttable()">导出成绩单</button>
+			<button id = "stuavail" type="button" class='btn btn-primary' style = "width: 9%;position:absolute;left:90%" onclick = "sendtable()">发布成绩单</button>
+		</div>
+		
+		<div class = "teatable2">
+			<div id = "t1"></div>   
+		</div>
+	</div>
+	<!-- 成绩管理 end-->
+</div>
+<script type="text/javascript">
+$(".leftsidebar_box dt").css({"background-color":"#3992d0"});
+$(".leftsidebar_box dt img").attr("src","/static/img/left/select_xl01.png");
+$(function(){
+	$(".leftsidebar_box dd").hide();
+	$(".leftsidebar_box dt").click(function(){
+		$(".leftsidebar_box dt").css({"background-color":"#3992d0"})
+		$(this).css({"background-color": "#317eb4"});
+		$(this).parent().find('dd').removeClass("menu_chioce");
+		$(".leftsidebar_box dt img").attr("src","/static/img/left/select_xl01.png");
+		$(this).parent().find('img').attr("src","/static/img/left/select_xl.png");
+		$(".menu_chioce").slideUp(); 
+		$(this).parent().find('dd').slideToggle();
+		$(this).parent().find('dd').addClass("menu_chioce");
+	});
+})
+</script>
+
+<!--注册-->
+<div class="modal fade" id="templatemo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header" style = "height:500px">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">注册</h4>
+				
+				<div class="login" style="margin-top:50px;">
+					<div class="qlogin" id="qlogin">
+						<div class="web_login" style = "padding-bottom: 0px;"><form name="form2" id="regUser" accept-charset="utf-8"  action="" method="post">
+							<input type="hidden" name="to" value="reg"/>
+							<input type="hidden" name="did" value="0"/>
+							<ul class="reg_form" id="reg-ul">
+									<div id="userCue" class="cue">请注意格式</div>
+									<li>
+										<label for="user"  class="input-tips2">用户名：</label>
+										<div class="inputOuter2">
+											<input type="text" id="user" name="user" maxlength="16" class="inputstyle2"/>
+										</div>
+									</li>
+									
+									<li>
+									<label for="passwd" class="input-tips2">密码：</label>
+										<div class="inputOuter2">
+											<input type="password" id="passwd"  name="passwd" maxlength="16" class="inputstyle2"/>
+										</div>
+									</li>
+									<li>
+									<label for="passwd2" class="input-tips2">确认密码：</label>
+										<div class="inputOuter2">
+											<input type="password" id="passwd2" name="" maxlength="16" class="inputstyle2" />
+										</div>
+									</li>
+									
+									<li>
+									 <label for="qq" class="input-tips2">邮箱：</label>
+										<div class="inputOuter2">
+										   
+											<input type="text" id="qq" name="qq" class="inputstyle2"/>
+										</div>
+									</li>
+									<li>
+										<div class="inputArea">
+											<input type="button" id="reg"  style="margin-top:10%;margin-left:35%;" class="button_blue" value="确认注册"/>
+										</div>
+									</li><div class="cl"></div>
+								</ul></form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--注册end-->
+
+<!--登陆-->
+<div class="modal fade" id="templatemo_modal2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">登陆</h4>
+
+				<div class="login" style="margin-top:50px;">
+					<div class="web_qr_login" id="web_qr_login" style="display: block; height: 235px;">    
+						<div class="web_login" id="web_login">
+							<div class="login-box">
+								<div class="login_form">
+									<form action="" name="loginform" accept-charset="utf-8" id="login_form" class="loginForm" method="post"><input type="hidden" name="did" value="0"/>
+								   <input type="hidden" name="to" value="log"/>
+									<div class="uinArea" id="uinArea">
+									<label class="input-tips" for="u">帐号：</label>
+									<div class="inputOuter" id="uArea">
+										
+										<input type="text" id="u" name="username" class="inputstyle"/>
+									</div>
+									</div>
+									<div class="pwdArea" id="pwdArea">
+								    <label class="input-tips" for="p">密码：</label> 
+								    <div class="inputOuter" id="pArea">
+										
+										<input type="password" id="p" name="p" class="inputstyle"/>
+									</div>
+									</div>
+								   
+									<div style="padding-left:50px;margin-top:20px;"><input type="submit" value="登 录" style="width:150px;" class="button_blue"/></div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>  
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--登陆end-->
+
+<!--课程管理 start-->
+<button type="button" id = "manageclass" data-toggle="modal" data-target="#templatemo_modal3" style = "display:none">课程管理</button>
+<div class="modal fade" id="templatemo_modal3" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">管理</h4>
+
+				<div class = "managecoursecss">
+					<select id  = "bxselect" class="selectpicker" data-style="btn-inverse">
+						<option value = -1 selected>必选/限选
+						<option value =1>必选</option>
+						<option value =0>限选</option>
+					</select>
+					<select id = "timeselect" class="selectpicker" data-style="btn-inverse" onchange= "selecttime()">
+						<option value = -1 selected>选课方式
+						<option value =1>立即开放选课</option>
+						<option value =0>设置选课时间</option>
+					</select>
+					<div id = "qqq" style = "display:none">
+					<br></br>
+					<label for="datetimepicker"><a style = "font-family: cursive;font-size: 18px;color: #626262;">开始时间:</a></label> 
+					<input type="text" class="form-control" style = "width:49%" value="2012-05-15 21:05" id="datetimepicker" data-date-format="yyyy-mm-dd hh:ii">
+					</div>
+					<div id = "qqq2" style = "display:none">
+					<br></br>
+					<label for="datetimepicker2"><a style = "font-family: cursive;font-size: 18px;color: #626262;">结束时间:</a></label> 
+					<input type="text" class="form-control" style = "width:49%" value="2012-05-15 21:05" id="datetimepicker2" data-date-format="yyyy-mm-dd hh:ii">
+					</div>
+					<button type="button" id = "savechange" class = "btn btn-success" style = "position: fixed;bottom: 15px;width: 15%;left: 80%;" onclick = "editclass()" data-dismiss="modal">确定</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--课程管理 end-->
+<script type="text/javascript">
+    $("#datetimepicker").datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        autoclose:true,
+        startDate:new Date()
+    }).on("click",function(){
+        $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val())
+    });
+	$("#datetimepicker2").datetimepicker({
+        format: 'yyyy-mm-dd hh:ii',
+        language: 'zh-CN',
+        autoclose:true,
+        startDate:new Date()
+    }).on("click",function(){
+        $("#datetimeStart").datetimepicker("setEndDate",$("#datetimeEnd").val())
+    });
+</script>
+<!--课程管理end-->
+</body>
+</html>
