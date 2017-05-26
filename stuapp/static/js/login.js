@@ -131,6 +131,7 @@ $(document).ready(function() {
 				boxShadow: "none"
 			});
 			
+			
 		}
 
 		$('#regUser').submit();

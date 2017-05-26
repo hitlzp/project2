@@ -19,7 +19,7 @@ Myclas, MGroup, SaveGroup, ShowGroup,Stutenttable, Showmodel,showtable,showteata
 sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgroup,startrandstu
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
-delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade
+delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -27,6 +27,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', main),
     url(r'^logout/$', logout),
+    url(r'^student/logout/$', logout_s),
     url(r'^teacher/addcourse/$', Addcourse),
     url(r'^teacher/mycourse/$', Mycourse),
     url(r'^teacher/mycourse/checked/$', CheckedCourse),

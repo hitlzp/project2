@@ -21,9 +21,9 @@ def main_s(request):#学生主页
             return HttpResponseRedirect("/student/main/")
     if request.POST:
         post = request.POST
-        print post
         if post["to"] == 'log':
-            login_s(request)
+            if login_s(request) == 1:
+                return HttpResponseRedirect("/student/main/")
         elif post["to"] == "reg":
             reg_s(request)
     
@@ -54,7 +54,13 @@ def login_s(request):
         if (user is not None) and (user.first_name == 's'):
             if user.is_active:
                 auth.login(request, user)
-                
+                return 1
+    return 0
+            
+def logout_s(request):#注销
+    auth.logout(request)
+    return HttpResponseRedirect("/student/login/")
+
 def student_main(request):
     all_course = []
     imgs = Course.objects.all()
@@ -152,7 +158,6 @@ def myclass(request):
             courseid = request.POST.get('courseid')
             time.localtime(time.time())
             thedatetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))#获取当前时间
-            print thedatetime
             thisclass = All_class.objects.filter(course_id = int(courseid))
             all_course = Course.objects.filter(id = courseid)
             minMclass = all_course[0].minMclass
@@ -165,7 +170,6 @@ def myclass(request):
                     theme_M.append(cls.theme)
                     isnecessary_M.append(cls.isnecessary)
                     choosed_M.append(len(Group.objects.filter(course_id = cls.id)))
-                    print cls.starttime
                     if Group.objects.filter(course_id = cls.id, stu_id = stuid):
                         state_M.append('已选')
                     else:
@@ -176,7 +180,7 @@ def myclass(request):
                             state_M.append('课程已结束')
                            
                         else:
-                            state_M.append('选课时间，截止'+str(cls.endtime))
+                            state_M.append('选课时间，截止'+str(cls.endtime).split('+')[0])
                         
                 elif cls.type == '大班':
                     number_B.append(cls.number)
@@ -218,17 +222,23 @@ def select_class(request):
                 classid = all_class[0].id
                 capacity = all_class[0].capacity
                 choosed = len(Group.objects.filter(course_id = classid))
-                if capacity == 0 or (choosed < capacity):
-                    if not Group.objects.filter(course_id = classid, stu_id = stuid):
-                        addclass = Group(
-                                            stu_id = stuid,
-                                            course_id = classid,
-                                            groupid = 0,
-                                            )
-                        addclass.save()
-                    judge = 1
+                time.localtime(time.time())
+                thedatetime = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))#获取当前时间
+                
+                if str(all_class[0].starttime) > thedatetime or str(all_class[0].endtime) < thedatetime:
+                    judge = 2
                 else:
-                    judge = 0
+                    if capacity == 0 or (choosed < capacity):
+                        if not Group.objects.filter(course_id = classid, stu_id = stuid):
+                            addclass = Group(
+                                                stu_id = stuid,
+                                                course_id = classid,
+                                                groupid = 0,
+                                                )
+                            addclass.save()
+                        judge = 1
+                    else:
+                        judge = 0
                 content = {"rr":judge}
                 return JsonResponse(content)
         
@@ -277,7 +287,6 @@ def showgroupstu(request):
         if request.is_ajax():
             courseid = request.POST.get('courseid')
             theclass = request.POST.get('theclass')
-            print courseid
             theclass = int(re.findall("\d+", theclass)[0])
             myclas = All_class.objects.filter(course_id = int(courseid), number = theclass)
             if myclas:
@@ -298,7 +307,6 @@ def showgroupstu(request):
                     group_num.append(len(temp))
                     groups_id.append(temp)
                     groups_name.append(temp2)
-            print groups_id
             content = {"groups_id":groups_id, "groups_name":groups_name, "group_num":group_num,"stunum":len(all_group),"rr":len(group_num)}
     return JsonResponse(content)
 
@@ -339,10 +347,8 @@ def stustartmark(request):
             theclass = int(re.findall("\d+", theclass)[0])
             all_class = All_class.objects.filter(course_id = int(courseid), number = theclass)
             if all_class:
-                classid = all_class[0].id
-                print stunumber        
+                classid = all_class[0].id    
                 astugrade = list(stugrade)
-                print astugrade
                 all_group = Group.objects.filter(course_id = classid)
                 for group in all_group:
                     if maxnumber < group.groupid:
@@ -353,7 +359,6 @@ def stustartmark(request):
                     groupsum = Stutable.objects.filter(id = tableid)[0].groupsum#小组数
                     groupnum = Stutable.objects.filter(id = tableid)[0].groupnum#小组人数
                     atablerand = list(tablerand)
-                    print atablerand
                     count = 0
                     count2 = 0
                     for therand in atablerand:
@@ -391,7 +396,6 @@ def stustartmark(request):
                                
                         elif int(therand) == 3:
                             stuid = request.user.id
-                            print stuid
                             pregrade = Group.objects.filter(course_id = classid, stu_id = stuid)[0].stumark3
                             Group.objects.filter(course_id = classid, stu_id = stuid).update(stumark3 = pregrade + astugrade[count2])
                             count2 = count2 + 1
