@@ -10,7 +10,7 @@
     height:auto;
     background:#fff;
     margin:30px auto;
-    padding:20px;
+    padding:2%;
 	position:absolute;
 	border-top: 2px dashed #fff;
     border-top-style: groove;
@@ -37,7 +37,7 @@
     list-style:none;
     position:relative;
     float:left;
-    margin-left:20px;
+    margin-left:2%;
     margin-bottom:20px;
     overflow:hidden;
 }

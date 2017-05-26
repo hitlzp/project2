@@ -1,7 +1,8 @@
-function change() {
+
+function change1() {
 	var pic = document.getElementById("preview"),
 	    file = document.getElementById("f");
-
+	document.getElementById("ii").style.display="none";
 	var ext=file.value.substring(file.value.lastIndexOf(".")+1).toLowerCase();
 
      // gif在IE浏览器暂时无法显示
@@ -35,7 +36,6 @@ function change() {
      var reader = new FileReader();
      reader.readAsDataURL(file);
      reader.onload = function(e){
-		 document.getElementById("ii").style.display="none";//隐藏
          var pic = document.getElementById("preview");
          pic.src=this.result;
      }

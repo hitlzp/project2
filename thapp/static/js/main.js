@@ -115,6 +115,8 @@ function choosedcourse(event)
 			
 			document.getElementById("xclass").value = mydata["minMclass"];
 			document.getElementById("bclass").value = mydata["minBclass"];
+			str_B= "";
+			str_M = "";
 		},
 	});
 }
@@ -996,7 +998,7 @@ function selclas2()
 			{
 				for(var j = 0;j < mydata["sum"];j++)
 				{
-					str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["stuid"][j]+10000000).toString()+"</td><td>"+mydata["stuname"][j]+"</td><td><a class = \"glyphicon glyphicon-remove\" id = \""+(j+1).toString()+"\"></a></td></tr>";
+					str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["stuid"][j]+10000000).toString()+"</td><td>"+mydata["stuname"][j]+"</td><td><a class = \"glyphicon glyphicon-remove\" id = \"qq"+(j+1).toString()+"\"></a></td></tr>";
 					iscome[j+1] = thgroupmark;
 				}
 			}
@@ -1017,7 +1019,7 @@ function selclas2()
 function addcheckbox2(){  //为小班表格前添加复选框
 	function initTableCheckbox() {  
         var $thr = $('#table30 thead tr');  
-        var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /style = \"display:none\"></th>');  
+        var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /style = \"display:none;width:1%\"></th>');  
          /*将全选/反选复选框添加到表头最前，即增加一列*/  
         $thr.prepend($checkAllTh);  
         /*“全选/反选”复选框*/  
@@ -1039,7 +1041,7 @@ function addcheckbox2(){  //为小班表格前添加复选框
         $(this).find('input').click(); 
         });  
         var $tbr = $('#table30 tbody tr');  
-        var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /style = \"display:none\"></td>');  
+        var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /style = \"display:none;width:1%\"></td>');  
         /*每一行都在最前面插入一个选中复选框的单元格*/  
         $tbr.prepend($checkItemTd);  
         /*点击每一行的选中复选框时*/  

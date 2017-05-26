@@ -161,7 +161,6 @@ def CheckedCourse(request):#在我的课程中选择某一个课程
                     theme_M.append(cls.theme)
                     isnecessary_M.append(cls.isnecessary)
                     choosed_M.append(len(Group.objects.filter(course_id = cls.id)))
-                    print cls.starttime
                     if str(cls.starttime) > thedatetime:
                         state_M.append('课程尚未开始')
                         
@@ -170,7 +169,7 @@ def CheckedCourse(request):#在我的课程中选择某一个课程
                        
                     else:
                         state_M.append('选课时间，截止'+str(cls.endtime))
-                        
+                  
                 elif cls.type == '大班':
                     number_B.append(cls.number)
                     period_B.append(cls.period)
@@ -187,7 +186,7 @@ def CheckedCourse(request):#在我的课程中选择某一个课程
             nums_M = len(number_M)
             nums_B = len(number_B)
             print nums_M
-            print isnecessary_M[2]
+            print isnecessary_M
     content = {"number_M":number_M, "period_M":period_M, "capacity_M":capacity_M, "theme_M":theme_M,
                "number_B":number_B, "period_B":period_B,"capacity_B":capacity_B,"theme_B":theme_B,
                "nums_M":nums_M, "nums_B":nums_B, "minMclass":minMclass, "minBclass":minBclass,
