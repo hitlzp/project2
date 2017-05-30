@@ -12,11 +12,13 @@
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
 <link href="/static/css/build.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="/static/css/uploadify.css">
+<link rel="stylesheet" href="/static/css/myUploadify.css">
 
 
 <script type="text/javascript" src="/static/js/placeImage.js"></script>
-<script type="text/javascript" src="/static/js/jquery.js"></script>
-<script type="text/javascript" src="/static/js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="/static/js/jquery1.js"></script>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/login.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="/static/js/main.js"></script>
@@ -27,6 +29,8 @@
 <script type="text/javascript" src="/static/js/bootstrap-datetimepicker.zh-CN.js"></script>
 <script type="text/javascript" src="/static/js/jquery.table2excel.js"></script>
 <script type="text/javascript" src="/static/js/jquery.table2excel.min.js"></script>
+
+<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
 <title>翻转课堂</title>
 <head>
 
@@ -152,19 +156,19 @@ form{position:absolute;}
 			<dd><a href="javascript:void(0)" onclick = "mark()">小班课程</a></dd>
 			<dd><a href="javascript:void(0)" onclick = "mark2()">大班课程</a></dd>
 			<dd><a href="javascript:void(0)" onclick = "maketable()">评分表格</a></dd>
-			<dd><a href="javascript:void(0)" data-toggle="modal" data-target="#templatemo_modal4" onclick = "selectclass6()">随机工具</a></dd>
+			<dd><a href="javascript:void(0)" data-toggle="modal" data-target="#templatemo_modal4">随机工具</a></dd>
 			
 		</dl>
 		
 		<dl class="custom">
 			<dt>成绩管理<img src="/static/img/left/select_xl01.png"></dt>
 			<dd class="first_dd"><a href="javascript:void(0)" onclick = "thegrade()">成绩管理</a></dd>
-			<dd class="first_dd"><a href="javascript:void(0)" onclick = "showBclass()">出席情况</a></dd>
+			<dd><a href="javascript:void(0)" onclick = "showBclass()">出席情况</a></dd>
 		</dl>
 	
 		<dl class="syetem_management">
 			<dt>其他<img src="/static/img/left/select_xl01.png"></dt>
-			<dd class="first_dd"><a href="#">其他</a></dd>
+			<dd class="first_dd"><a href="javascript:void(0)" onclick = "showFile()">课程资源</a></dd>
 		</dl>
 	</div>
 	<!-- 新增课程 start-->
@@ -478,6 +482,18 @@ form{position:absolute;}
 		</div>
 	</div>
 	<!-- 出席情况 end-->
+	
+	<!-- 文件 end-->
+	<div id = "showallfile" class = "main_view" style="display:none">
+		<div id = "filelist"></div>
+	
+		<div id = "record" style = "display:none"></div>
+		<div style = "position:absolute;height:5%;width:11%;right:10px;top:95%">
+			<input type="file" id="id_upload" name="upload"/>
+			<a style = "position:absolute;color: #f9f8f8;font-size: 15px;left: 27%;top: 10%;font-family: -webkit-body;">上传文件</a>
+		</div>
+	</div>
+	<!-- 文件 end-->
 </div>
 <script type="text/javascript">
 $(".leftsidebar_box dt").css({"background-color":"#3992d0"});
@@ -676,6 +692,33 @@ $(function(){
 	</div>
 </div>
 <!--随机 end-->
+
+<!--进入文件共享 start-->
+<button type="button" id = "mma" data-toggle="modal" data-target="#templatemo_modal5" style = "display:none">课程选择</button>
+<div class="modal fade" id="templatemo_modal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">随机</h4>
+
+				<div class = "managecoursecss" style = "height:100px">
+					<select id="selectcourse7" class="styled-select" style = "display:inline-block;width:49%;height:30px" data-style="btn-inverse" onchange= "selectclass7()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+					</select>
+					<select id = "rtrt7"  style = "width:49%;height:30px">
+					</select>
+					<button type="button" class = "btn btn-primary" style = "width:15%;position:absolute;right:0;bottom:8%" data-dismiss="modal" onclick = "all_file()">进入</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--进入文件共享 end-->
 <script type="text/javascript">
     $("#datetimepicker").datetimepicker({
         format: 'yyyy-mm-dd hh:ii',

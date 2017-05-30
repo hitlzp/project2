@@ -16,7 +16,8 @@ from django.conf.urls import include, url
 from django.contrib import admin
 from thapp.views import main, logout, Addcourse, Mycourse, CheckedCourse, ChangeCourse,  Editclass,\
 Myclas, MGroup, SaveGroup, ShowGroup,Stutenttable, Showmodel,showtable,showteatable,endmark, showgradetable, class_mark,\
-sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgroup,startrandstu
+sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgroup,startrandstu,test,\
+upload_image,check_existing,theafile
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
 delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s
@@ -27,6 +28,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', main),
     url(r'^logout/$', logout),
+    url(r'^test/$', test),
     url(r'^student/logout/$', logout_s),
     url(r'^teacher/addcourse/$', Addcourse),
     url(r'^teacher/mycourse/$', Mycourse),
@@ -50,6 +52,9 @@ urlpatterns = [
     url(r'^teacher/group/rand/$', randgs),
     url(r'^teacher/startrandgroup/$', startrandgroup),
     url(r'^teacher/startrandstu/$', startrandstu),
+    url(r"^check_existing/$",check_existing),
+    url(r"^upload_image/$",upload_image),
+    url(r"^teacher/thfile/$",theafile),
     
     url(r'^student/login/$', main_s),
     url(r'^student/main/$', student_main),

@@ -1,0 +1,41 @@
+<!DOCTYPE>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <title></title>
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="expires" content="0">
+
+    <link rel="stylesheet" href="/static/css/uploadify.css">
+    <link rel="stylesheet" href="/static/css/myUploadify.css">
+    <script type="text/javascript" src="/static/js/jquery1.js"></script>
+    <script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            //批量上传按钮
+            $('#id_upload').uploadify ({
+                'swf'		: '/static/js/uploadify.swf',
+                'uploader' 	: '/upload_image/',
+                'cancelImage' : '/static/css/cancel.png',
+                'buttonClass' : 'btn',
+                'checkExisting' : '/check_existing/',
+                'removeCompleted': true,
+                'fileTypeExts'   : '*',
+                'multi'		: true,
+                'auto'    : true,
+                'buttonText': '添加文件',
+                'onUploadSuccess' : function (file, data, response) {
+                    $("#instructions").before("<img src='/media/"+ data + "' />")
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+<input type="file" id="id_upload" name="upload"/>
+
+
+</body>
+</html>

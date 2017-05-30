@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render_to_response
+from django.shortcuts import HttpResponse, render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import auth
-from models import Course, All_class, Group, Stutable,Inclass
+from models import Course, All_class, Group, Stutable,Inclass,all_file
 from django.http import JsonResponse
 from stuapp.models import Stucourse
 import uuid
@@ -14,8 +14,13 @@ import time
 from _ast import Num
 import re
 import random
+from PIL import Image
+import json as simplejson
+import urllib
 # Create your views here.
 
+def test(request):
+    return render_to_response("index.html")
 def main(request):#教师主页
     c = "您还未登陆！"
     if request.user.id:
@@ -758,3 +763,57 @@ def startrandstu(request):
                     stuname = User.objects.filter(id = group.stu_id)[0].username
                     allstudent.append(stuname)
                 return JsonResponse({"allstudent":allstudent})
+            
+
+def check_existing(request):
+    return HttpResponse('0')
+
+def upload_image(request):
+    reqfile = request.FILES['Filedata']
+    classid = request.POST.get('classid')
+    theid = request.user.id
+    add = all_file(
+                   file = reqfile,
+                   theclass_id = classid,
+                   theuser_id = theid,
+                   )
+    add.save()
+    return HttpResponse(reqfile.name)
+
+def theafile(request):
+    files = []
+    filesname = []
+    stuname = []
+    stuurl = []
+    stufilename = []
+    stugroup = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            theuser = request.user.id
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                allfile = all_file.objects.filter(theclass_id = classid)
+                print len(allfile)
+                for f in allfile:
+                    if f.theuser_id == theuser:
+                        files.append(f.file.url)
+                        s = f.file.url.split('/')[len(f.file.url.split('/')) - 1]
+                        urllib.unquote(str(s)).decode('utf8') 
+                        filesname.append(urllib.unquote(str(s)).decode('utf8'))
+                    else:
+                        gg = Group.objects.filter(stu_id = f.theuser_id, course_id = classid)
+                        if gg:
+                            stuname.append(User.objects.filter(id = f.theuser_id)[0].username)
+                            stugroup.append(gg[0].groupid)
+                            stuurl.append(f.file.url)
+                            s = f.file.url.split('/')[len(f.file.url.split('/')) - 1]
+                            urllib.unquote(str(s)).decode('utf8')
+                            stufilename.append(urllib.unquote(str(s)).decode('utf8'))
+                content = {"files":files, "sum":len(files), "allstufile":len(stuname), "stuname":stuname, "stuurl":stuurl,
+                               "filesname":filesname, "stufilename":stufilename, "stugroup":stugroup, "classid":classid}
+                print filesname
+                return JsonResponse(content)

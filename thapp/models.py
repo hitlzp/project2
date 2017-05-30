@@ -48,3 +48,8 @@ class Inclass(models.Model):
     stutable = models.ForeignKey(Stutable)
     thtable = models.IntegerField(default=0)
     thgrouptable = models.IntegerField(default=0)
+    
+class all_file(models.Model):
+    theuser = models.ForeignKey(User)
+    theclass = models.ForeignKey(All_class)
+    file = models.FileField(upload_to='file')

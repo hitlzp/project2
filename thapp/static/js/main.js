@@ -2,9 +2,11 @@
 window.onload=function(){
       $('.selectpicker').selectpicker();
 		mycourse();
+		
       };
 var course_id = -1;
 var theclass = -1;
+var theclassid = -1
 function mycourse()
 {
 	document.getElementById("myc").style.display="";//显示
@@ -16,6 +18,8 @@ function mycourse()
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
+	
 	var post_data ={
 			"cname":1,
 			};
@@ -49,6 +53,7 @@ function newcourse()
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
 }
 
 function choosedcourse(event)
@@ -274,6 +279,7 @@ function grouping()//学生分组
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
 }
 
 				
@@ -441,6 +447,29 @@ function selectclass6()
 	});
 }
 
+function selectclass7()
+{
+	course = document.getElementById("selectcourse7").value
+	var obj_td =  document.getElementById("rtrt7");
+	$("#rtrt7").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/group/rand/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
 function showBclass()
 {
 	document.getElementById("courseadded").style.display="none";//隐藏
@@ -452,6 +481,7 @@ function showBclass()
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="";
+	document.getElementById("showallfile").style.display="none";
 }
 
 var thecourse = -1;
@@ -580,6 +610,7 @@ function mark()//小班管理
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
 }
 
 function mark2()//大班管理
@@ -595,6 +626,7 @@ function mark2()//大班管理
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
 }
 
 function maketable()//设计评分表格
@@ -608,6 +640,7 @@ function maketable()//设计评分表格
 	document.getElementById("mygrade").style.display="none";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
 	
 	$.ajax({
 		type : "POST", //要插入数据，所以是POST协议 
@@ -858,6 +891,7 @@ function thegrade()
 	document.getElementById("stuavail").style.display="";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="none";
 	selectclass3();
 }
 
@@ -1298,3 +1332,78 @@ function start(){
 function GetRnd(min,max){
     return parseInt(Math.random()*(max-min+1));
 }
+
+function showFile()
+{
+	document.getElementById("mma").click();
+}
+
+function all_file()
+{
+	document.getElementById("courseadded").style.display="none";//隐藏
+	document.getElementById("thisclass").style.display="none";
+	document.getElementById("myc").style.display="none";
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("ggrade").style.display="none";
+	document.getElementById("thetable").style.display="none";
+	document.getElementById("mygrade").style.display="none";
+	document.getElementById("subm2").style.display="none";
+	document.getElementById("stuavail").style.display="";
+	document.getElementById("largeclass").style.display="none";
+	document.getElementById("showlargeclass").style.display="none";
+	document.getElementById("showallfile").style.display="";
+	senfile();
+	course = document.getElementById("selectcourse7").value
+	theclass = document.getElementById("rtrt7").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/thfile/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			str = "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">教师分享</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			
+			for(var k = 0; k < mydata["sum"];k++)
+			{
+				str+= "<a style = \"float:left;width:100%;font-size:15px\" href = \""+mydata["files"][k]+"\">"+mydata["filesname"][k]+"</a>";
+			}
+			str += "</div>";
+			
+			str += "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">学生展示</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			for(var i = 0; i < mydata["allstufile"]; i++)
+			{
+				str+="<a style = \"float:left;width:80%;font-size:15px\" href = \""+mydata["stuurl"][i]+"\">"+mydata["stufilename"][i]+"</a><a style = \"float:left;width:9%\">"+mydata["stuname"][i]+"</a><a style = \"float:left;width:9%\">第"+mydata["stugroup"][i]+"组</a>";
+			}
+			str += "</div>";
+			document.getElementById("filelist").innerHTML = str;
+			theclassid = mydata["classid"]
+			senfile();
+			senfile();
+		}
+	});
+}
+
+function senfile(){
+            //批量上传按钮
+            $('#id_upload').uploadify ({
+                'swf'		: '/static/js/uploadify.swf',
+                'uploader' 	: '/upload_image/',
+                'cancelImage' : '/static/css/cancel.png',
+                'buttonClass' : 'btn',
+                'checkExisting' : '/check_existing/',
+				'formData'      : {'classid':theclassid},  
+                'removeCompleted': true,
+                'fileTypeExts'   : '*',
+                'multi'		: true,
+                'auto'    : true,
+                'buttonText': '',
+                'onUploadSuccess' : function (file, data, response) {
+                    $("#instructions").before("<img src='/media/"+ data + "' />")
+                }
+            });
+        }
