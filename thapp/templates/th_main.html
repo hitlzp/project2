@@ -112,12 +112,13 @@ form{position:absolute;}
 .managecoursecss{background: #fff;position: relative;width: 90%;left: 5%;top: 15px;height: 400px;}
 .rightslider{position: fixed;
     width: 15%;
-    height: 80%;
+    height: 100%;
     left: 85%;
     top: 10%;
-    /* border-style: solid; */
-    /* border-color: #3992d0; */
-    border: solid 1px #3992d0;}
+    top: 7%;
+    border-left: solid 1px #3992d0;
+    border-right: solid 1px #3992d0;
+    border-top: solid 1px #3992d0;}
 
 .thefunc{    position: absolute;
     width: 80%;
@@ -139,7 +140,7 @@ form{position:absolute;}
 
 <div class="container1">
 	<!-- 顶部注册登陆 start-->
-	<div class="pagetop_notice txt_gray"><cite id="login"><a id = "ii1" href="javascript:;" id = "courseset" data-toggle="modal" data-target="#templatemo_modal2">|&emsp;登录</a><a href="javascript:;" data-toggle="modal" data-target="#templatemo_modal">|&emsp;注册</a><a href="/logout/">注销</a><span id = "ii3" class="login2">{{user}}</span></cite></div>
+	<div class="pagetop_notice txt_gray"><cite id="login"><a id = "ii1" href="javascript:;" style = "font-size: 15px;" id = "courseset" data-toggle="modal" data-target="#templatemo_modal2">|&emsp;登录</a><a href="javascript:;" style = "font-size: 15px;" data-toggle="modal" data-target="#templatemo_modal">|&emsp;注册</a><a href="/logout/" style = "font-size: 15px;">注销</a><span id = "ii3" class="login2" style = "font-size: 15px;">{{user}}</span></cite></div>
 	<!-- 顶部注册登陆 end-->
 	<div class="leftsidebar_box">
 		<div class="line"></div>
@@ -356,7 +357,7 @@ form{position:absolute;}
 			<button id = "sg" type="button" class = "btn btn-success" style = "width: 9%;position:absolute;left:82%" onclick = "startmark()">开始评分</button>
 			<button id = "eg" type="button" class='btn btn-danger' style = "width: 9%;position:absolute;left:92%" onclick = "endmark()">评分结束</button>
 		</div>
-		<div class = "teatable">
+		<div id= "sst" class = "teatable">
 				<div style = "font-size: 20px;position:absolute;left:35%">翻转课堂教师评价记录表</div>
 				<div id = "pretable2" style = "position:absolute;left:5%;width:94%;top:10%"></div>
 				
@@ -396,7 +397,7 @@ form{position:absolute;}
 		<div class = "rightslider">
 			<div id =  "showallpretable" ></div>
 		</div>
-		<div class = "showtable">
+		<div id = "st" class = "showtable">
 			<div style = "font-size: 20px;position:absolute;left:35%">翻转课堂学生评价记录表</div>
 			<div id = "pretable" style = "position:absolute;left:5%;width:94%;top:10%"></div>
 		</div>

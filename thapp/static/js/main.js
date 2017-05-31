@@ -611,6 +611,8 @@ function mark()//小班管理
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
 	document.getElementById("showallfile").style.display="none";
+	
+	document.getElementById("sst").style.display="none";
 }
 
 function mark2()//大班管理
@@ -642,6 +644,10 @@ function maketable()//设计评分表格
 	document.getElementById("showlargeclass").style.display="none";
 	document.getElementById("showallfile").style.display="none";
 	
+	
+	
+	document.getElementById("st").style.display="none";
+	thetables(0, 0);
 	$.ajax({
 		type : "POST", //要插入数据，所以是POST协议 
 		url : "/teacher/showmodel/", //注意结尾的斜线，否则会出现500错误
@@ -650,7 +656,7 @@ function maketable()//设计评分表格
 			str = "";
 			for(var i = 0; i < mydata["num"];i++)
 			{
-				str+="<a style = \"font-family: \'微软雅黑\'; font-size: 12px;color: #333;\" href=\"javascript:void(0)\""+
+				str+="<a style = \"font-family: \'微软雅黑\'; font-size: 15px;color: #333;\" href=\"javascript:void(0)\""+
 				"onclick = \"showpreable("+mydata["table2"][i].toString()+")\">• "+mydata["tablename"][i]+"</a><br></br>";
 			}
 			document.getElementById("showallpretable").innerHTML = str;
@@ -660,6 +666,7 @@ function maketable()//设计评分表格
 
 function showpreable(event)
 {
+	document.getElementById("st").style.display="";
 	var post_data ={
 			"tableid":event,
 			};
@@ -706,6 +713,7 @@ function thetables(event, event2)
 {
 	if (event == 1)
 	{
+		document.getElementById("st").style.display="";
 		tablerand += event.toString();
 		str9+="<table border=\"1\" bordercolor=\"black\" width=\"95%\" cellspacing=\"0\" cellpadding=\"5\">" +
 				"<tr><td style = \"width:20%\" rowspan="+(event2+1).toString()+" contentEditable=\"true\">环节名称</td><td style = \"width:20%\" rowspan="+(event2+1).toString()+
@@ -715,12 +723,13 @@ function thetables(event, event2)
 			str9+="<tr><td contentEditable=true><input type=\'text\' style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
 				"<option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td> </tr> "
 		}
-		str9 += "</table><br></br>"; 
+		str9 += "</table>"; 
 		groupnum = event2;
 		
 	}
 	if(event == 2)
 	{
+		document.getElementById("st").style.display="";
 		tablerand += event.toString();
 		str9+="<table border=\"1\" bordercolor=\"black\" width=\"95%\" cellspacing=\"0\" cellpadding=\"5\">" +
 				"<tr><td style = \"width:20%\" rowspan="+(event2+1).toString()+" contentEditable=\"true\">环节名称</td><td style = \"width:20%\" rowspan="+(event2+1).toString()+
@@ -730,21 +739,23 @@ function thetables(event, event2)
 			str9+="<tr><td contentEditable=true><input type=\'text\' style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
 				"<option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td> </tr> "
 		}
-		str9 += "</table><br></br>"; 
+		str9 += "</table>"; 
 		groupsum = event2;
 	}
 	if(event == 3)
 	{
+		document.getElementById("st").style.display="";
 		tablerand += event.toString();
 		str9+="<table border=\"1\" bordercolor=\"black\" width=\"95%\" cellspacing=\"0\" cellpadding=\"5\">" +
 				"<tr><td style = \"width:30%\" rowspan= 2 contentEditable=\"true\">环节名称</td><td style = \"width:30%\">自评得分</td><td style = \"width:30%\" rowspan= 2 contentEditable=\"true\">备注内容</td></tr>";
 
 		str9+="<tr><td><select style = \"width:100%\"><option value =1>A</option>"+
 			"<option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td> </tr> "
-		str9 += "</table><br></br>";
+		str9 += "</table>";
 	}
 	if(event == 4)
 	{
+		document.getElementById("st").style.display="";
 		tablerand += event.toString();
 		str9+="<table border=\"1\" bordercolor=\"black\" width=\"95%\" cellspacing=\"0\" cellpadding=\"5\">" +
 				"<tr><td style = \"width:20%\" rowspan=2 contentEditable=\"true\">环节名称</td><td style = \"width:20%\" rowspan=2"+
@@ -754,7 +765,7 @@ function thetables(event, event2)
 			str9+="<tr><td contentEditable=true><input type=\'text\' style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
 				"<option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td> </tr> "
 		}
-		str9 += "</table><br></br>";
+		str9 += "</table>";
 	}
 	
 	if(event == 5)
@@ -806,6 +817,7 @@ function startmark()
 			traditional:true,  //加上此项可以传数组
 			data : post_data, //JSON数据
 			success: function(mydata){
+				document.getElementById("sst").style.display="";
 				str3 = "";
 				str = "<table border=1 bordercolor=black width=95% cellspacing=0 cellpadding=5><tbody><tr><td>序号</td><td>学生编号</td><td>学生姓名</td>"+
 						"<td>评价结果</td><td>序号</td><td>学生编号</td><td>学生姓名</td><td>评价结果</td></tr>";

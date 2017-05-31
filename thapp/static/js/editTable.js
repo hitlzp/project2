@@ -111,7 +111,6 @@ break;
 function getEditableCols() { 
 var cols = c.editableCols; 
 if($.type(c.editableCols) != "array" && cols == "all") { //如果是所有列都可以编辑的话 
-alert(111);
 cols = []; 
 for(var i = 0; i < colsNum; i++) { 
 if(i != c.operatePos) { //排除放置操作的列 
@@ -275,7 +274,6 @@ var id = Number(afterSave[0]);
 seq[id] = -1;
 count = count - 1;
 
-alert(afterSave);
 $(_this).parents('tr').remove(); 
 }); 
 }); 
@@ -313,13 +311,7 @@ $('.editable').handleTable({
 //data: 返回的数据 
 //isSucess: 方法，用于保存数据成功后，将可编辑状态变为不可编辑状态 
 var flag = true; //ajax请求成功（保存数据成功），才回调isSuccess函数（修改保存状态为编辑状态） 
-if(flag) { 
-isSuccess();
 
-alert(data + " 保存成功"); 
-} else { 
-alert(data + " 保存失败"); 
-} 
 return true; 
 }, 
 "addCallback" : function(data,isSuccess) { 
@@ -334,9 +326,7 @@ nums[id] = Number(data[3]);
 classtype[id] = data[4];
 count = count+1;
 
-alert(data + " 增加成功"); 
 } else { 
-alert(data + " 增加失败"); 
 } 
 }, 
 "delCallback" : function(isSuccess) { 

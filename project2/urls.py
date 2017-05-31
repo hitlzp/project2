@@ -20,7 +20,7 @@ sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgrou
 upload_image,check_existing,theafile
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
-delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s,theafile2
+delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s,theafile2 
 from django.conf.urls.static import static
 from django.conf import settings
 
