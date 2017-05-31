@@ -1400,21 +1400,15 @@ function all_file()
 }
 
 function senfile(){
-            //批量上传按钮
-            $('#id_upload').uploadify ({
-                'swf'		: '/static/js/uploadify.swf',
-                'uploader' 	: '/upload_image/',
-                'cancelImage' : '/static/css/cancel.png',
-                'buttonClass' : 'btn',
-                'checkExisting' : '/check_existing/',
-				'formData'      : {'classid':theclassid},  
-                'removeCompleted': true,
-                'fileTypeExts'   : '*',
-                'multi'		: true,
-                'auto'    : true,
-                'buttonText': '',
-                'onUploadSuccess' : function (file, data, response) {
-                    all_file();
-                }
-            });
+            $('#file_upload').uploadifive({
+				'debug': true,
+				'auto'             : true,
+				'checkScript'      : '/check_existing/',
+				'formData'         : {'classid':theclassid},
+				'queueID'          : 'queue',
+				'uploadScript'     : '/upload_image/',
+				'buttonText'		: "上传文件",
+				'removeCompleted'				:true,
+				'onUploadComplete' : function(file, data) {all_file();}
+			});
         }

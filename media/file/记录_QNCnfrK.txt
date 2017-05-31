@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>翻转课堂</title>
+
+
+
+<!--必要样式-->
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+<link type="text/css" href="/static/css/style.css" rel="stylesheet">
+<link href="/static/css/component.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="/static/css/xcConfirm.css"/>
+<link rel="stylesheet" href="/static/css/uploadify.css">
+<link rel="stylesheet" href="/static/css/myUploadify.css">
+
+
+<script type="text/javascript" src="/static/js/jquery1.js"></script>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+<script type="text/javascript" src="/static/js/modernizr.custom.js"></script>
+<script type="text/javascript" src="/static/js/jquery.dlmenu.js"></script>
+<script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="/static/js/stumain.js"></script>
+<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
+
+
+
+</head>
+<body>
+
+<header class="header">
+	<a class="logo"></a>
+	<div id="dl-menu" class="dl-menuwrapper">
+		<button id="dl-menu-button">Open Menu</button>
+		<ul class="dl-menu">
+			<li><a href="/student/main/">首页</a></li>
+			<li><a href="javascript:void(0)" onclick = "mycourse()">我的课程</a></li>
+			<li><a href="javascript:void(0)" onclick = "showgroup()">翻转课堂</a></li>
+			<li><a href="javascript:void(0)" onclick = "mygrade()">成绩</a></li>
+			<li><a href="javascript:void(0)" onclick = "myfile()">文件</a></li>
+			<li><a href="/student/logout/" >注销</a></li>
+		</ul>
+	</div>
+</header>
+
+<div class = "main_view">
+	<!--所有课程 start-->
+	<div id = "all_course">
+		<div id = "thecour2"></div>
+	</div>
+	<!--所有课程 end-->
+	
+	<!--我的课程 start-->
+	<div id = "mycour" style="display:none">
+		<div id = "thecour"></div>
+	</div>
+	<!--我的课程 end-->
+	
+	<!--课程详细信息 start-->
+	<div id = "mycl" style="display:none">
+		<br></br>
+		<div id = "listmyclass"></div>
+		<div id = "listmyclass2"></div>
+		<br></br>
+		<a style = "color:red">备注：</a>
+		<a id = "beizhu" style = "color:red"></a>
+	</div>
+	<!--课程详细信息 end-->
+	
+	<!-- 分组-->
+	<div id = "groupbox" style="display:none">
+		<div style = "position:absolute;width:90%;left:6%">
+			<br></br><br></br>
+			<div id = "grouped" style = "min-height:768px"></div>
+			<div class = "btwid">
+				<button type="button" class = "btn btn-success" style = "width: 90%" onclick = "stugrade()">评分</button>
+			</div>
+		</div>
+		<div style = "position:absolute;width:100%;top:20px;">
+			<div style = "width:100%;float:left;background-color: #fff;">
+				<div style= "width:100%;display:inline-block">
+					<div class="styled-select" style = "display:inline-block;width:49%">
+						<select id="selectcourse" onchange= "selectclass()" style = "width:99%"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+						</select>
+					</div>
+					<div class="styled-select" style = "display:inline-block;width:49%" >
+						<select id = "rtrt" onchange= "scls()" style = "width:99%">
+							<option value = -1 selected>请选择	
+						</select>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 分组 end-->
+	
+	<!--查看成绩 start-->
+	<div id = "sg" style="display:none;position: absolute;width: 100%;top: 15px;">
+		<div id = "showmygrade"></div>
+	</div>
+	<!--查看成绩 end-->
+	
+	<!--文件 start-->
+	<div id = "sg2" style="display:none;position: absolute;width: 100%;top: 15px;min-height:700px">
+		<div id = "filelist"></div>
+		<div style = "position:absolute;height:5%;width:11%;right:10px;top:95%">
+			<input type="file" id="id_upload" name="upload">
+		</div>
+	</div>
+	<!--文件 end-->
+</div>
+
+<script type="text/javascript">
+$(function(){
+	$( '#dl-menu' ).dlmenu();
+});
+</script>
+
+<!--评分表 start-->
+<button type="button" id = "qqqq" data-toggle="modal" data-target="#templatemo_modal" style = "display:none"></button>
+<div class="modal fade" id="templatemo_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">评分</h4>
+
+				<div class = "managecoursecss" id = "rrrr">
+					<div class = "showtable">
+						<div style = "font-size: 20px;position:absolute;left:20%">翻转课堂学生评价记录表</div>
+						<div id = "pretable" style = "position:absolute;left:5%;width:94%;top:10%"></div>
+					</div>
+				</div>
+				<button type="button" class = "btn btn-success" style = "width: 90%" data-dismiss="modal" onclick = "all_grade()">提交</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--评分表 end-->
+
+<!--进入文件共享 start-->
+<button type="button" id = "mma" data-toggle="modal" data-target="#templatemo_modal5" style = "display:none">课程选择</button>
+<div class="modal fade" id="templatemo_modal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">课程</h4>
+				<br></br>
+				<div class = "managecoursecss" style = "height:100px">
+					<select id="selectcourse7" class="styled-select" style = "display:inline-block;width:49%;height:30px" data-style="btn-inverse" onchange= "selectclass7()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+					</select>
+					<select id = "rtrt7"  style = "width:49%;height:30px">
+					</select>
+					<button type="button" class = "btn btn-primary" style = "width:15%;position:absolute;right:3%;bottom:8%" data-dismiss="modal" onclick = "all_file()">进入</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--进入文件共享 end-->
+</body>
+</html>
+
+
+
+var course_id = -1;
+var theclassid = -1;
+
+window.onload=function()
+{
+      showallcourse();
+};
+
+function showallcourse()
+{
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/listallcourse/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		success: function(mydata){
+			str = "";
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				str += "<br></br><div style = \"width:100%;height:100px;border-bottom: 1px solid #c7aeae;\" onclick = \"selectcourse("
+				+mydata["courseid"][i]+")\">"+"<img class = \"thepic\" src=\""+mydata["imgs"][i]+"\" /><h2 class = \"ii\">"+mydata["cname"][i]+
+				"<h2><br></br>"+"<h2 class = \"ii\">主讲教师：&nbsp"+mydata["thname"][i]+"<h2></div>"
+			}
+			document.getElementById("thecour2").innerHTML = str;
+		}
+	});
+}
+
+function selectcourse(event)
+{
+	var txt=  "选择课程";
+	var type = 0;//表示选课
+	window.wxc.xcConfirm(txt, type, event, window.wxc.xcConfirm.typeEnum.confirm);
+}
+
+function mycourse()
+{
+	document.getElementById("mycour").style.display="";//隐藏
+	document.getElementById("all_course").style.display="none";//隐藏
+	document.getElementById("mycl").style.display="none";//隐藏
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="none";
+	document.getElementById("dl-menu-button").click();
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/list/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		success: function(mydata){
+			str = "";
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				str += "<br></br><div style = \"width:100%;height:100px;border-bottom: 1px solid #c7aeae;\" onclick = \"selectcourse2("
+				+mydata["courseid"][i]+")\">"+"<img class = \"thepic\" src=\""+mydata["imgs"][i]+"\" /><h2 class = \"ii\">"+mydata["cname"][i]+
+				"<h2><br></br>"+"<h2 class = \"ii\">主讲教师：&nbsp"+mydata["thname"][i]+"<h2></div>"
+			}
+			document.getElementById("thecour").innerHTML = str;
+		}
+	});
+}
+
+function selectcourse2(event)
+{
+	var txt = "课程管理";
+	type = 1;//表示退选
+	window.wxc.xcConfirm(txt, type, event, window.wxc.xcConfirm.typeEnum.confirm);
+}
+
+function allclass(event)
+{
+	document.getElementById("mycl").style.display="";
+	document.getElementById("mycour").style.display="none";//隐藏
+	document.getElementById("all_course").style.display="none";//隐藏
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="none";
+	var post_data ={
+			"courseid":event,
+			};
+	course_id = event;
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/myallclass/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			var str_M = "<div class=\"panel panel-primary\"><div class=\"panel-heading\">小班</div>"+ 
+						"<table id = \"wwww\" class=\"table table-bordered table-hover\"><thead><tr class=\"success\">"+
+                            "<th>序号</th>"+
+                            "<th>小班主题</th>"+  
+                            "<th>学时</th>"+ 
+                            "<th>容量</th>"+
+							"<th>备注</th>"+
+							"<th>状态</th></tr></thead>  <tbody> ";
+			var str_B = "<div class=\"panel panel-primary\"><div class=\"panel-heading\">大班</div>"+ 
+						"<table id = \"wwww\" class=\"table table-bordered table-hover\"><thead><tr class=\"success\">"+
+                            "<th>序号</th>"+
+                            "<th>大班主题</th>"+ 
+                            "<th>学时</th>"+ 
+                            "<th>容量</th>"+
+							"<th>备注</th>"+
+							"<th>状态</th></tr></thead>  <tbody> ";
+			for(var i = 0; i < mydata["nums_M"];i++){
+				var thecap_M;
+				if(mydata["capacity_M"][i] == 0)//若最初课程容量未设置，则默认为不限制
+				{
+					thecap_M = mydata["choosed_M"][i].toString() + "/";
+				}
+				else
+				{
+					thecap_M = mydata["choosed_M"][i].toString() + "/" + mydata["capacity_M"][i].toString();
+				}
+				str_M = str_M + "<tr><td>"+mydata["number_M"][i]+"</td><td>"+mydata["theme_M"][i]+"</td><td>"+mydata["period_M"][i]+"</td>"+  
+                        "<td>"+thecap_M+"</td><td>"+mydata["isnecessary_M"][i]+"</td><td>"+mydata["state_M"][i]+"</td></tr>"
+			}
+			for(var i = 0; i < mydata["nums_B"];i++){
+				var thecap_B;
+				if(mydata["capacity_B"][i] == 0)//若最初课程容量未设置，则默认为不限制
+				{
+					thecap_B = mydata["choosed_B"][i].toString() + "/";
+				}
+				else
+				{
+					thecap_B = mydata["choosed_B"][i].toString() + "/" + mydata["capacity_B"][i].toString();
+				}
+				str_B = str_B + "<tr><td>"+mydata["number_B"][i]+"</td><td>"+mydata["theme_B"][i]+"</td><td>"+mydata["period_B"][i]+"</td>"+  
+                        "<td>"+thecap_B+"</td><td>"+mydata["isnecessary_B"][i]+"</td><td>"+mydata["state_B"][i]+"</td></tr>"
+			}
+			str_B = str_B + "</tbody></table></div>";
+			str_M = str_M + "</tbody></table></div>";
+			document.getElementById("listmyclass").innerHTML = str_M;
+			document.getElementById("listmyclass2").innerHTML = str_B;
+			addcheckbox();
+			
+			mystr = "要求小班课程至少选择"+mydata["minMclass"].toString()+"次；"+"大班课程至少选择"+mydata["minBclass"].toString()+"次";
+			document.getElementById("beizhu").innerHTML = mystr;
+		}
+	});
+}
+
+function addcheckbox(){  //为小班表格前添加复选框
+	function initTableCheckbox() {  
+        var $thr = $('#wwww thead tr');  
+        var $checkAllTh = $('<th><input type="checkbox" id="checkAll" name="checkAll" /style = \"display:none\"></th>');  
+         /*将全选/反选复选框添加到表头最前，即增加一列*/  
+        $thr.prepend($checkAllTh);  
+        /*“全选/反选”复选框*/  
+        var $checkAll = $thr.find('input');  
+        $checkAll.click(function(event){  
+        /*将所有行的选中状态设成全选框的选中状态*/ 
+        $tbr.find('input').prop('checked',$(this).prop('checked'));  
+        /*并调整所有选中行的CSS样式*/  
+        if ($(this).prop('checked')) {  
+            $tbr.find('input').parent().parent().addClass('warning');  
+        } else{  
+                $tbr.find('input').parent().parent().removeClass('warning');  
+              }  
+        /*阻止向上冒泡，以防再次触发点击操作*/  
+        event.stopPropagation();  
+        });  
+        /*点击全选框所在单元格时也触发全选框的点击操作*/  
+        $checkAllTh.click(function(){  
+        $(this).find('input').click(); 
+        });  
+        var $tbr = $('#wwww tbody tr');  
+        var $checkItemTd = $('<td><input type="checkbox" name="checkItem" /style = \"display:none\"></td>');  
+        /*每一行都在最前面插入一个选中复选框的单元格*/  
+        $tbr.prepend($checkItemTd);  
+        /*点击每一行的选中复选框时*/  
+        $tbr.find('input').click(function(event){ 		
+		$(this).each(function(){
+		var val = $(this).parent().next().text();
+		theclass = val;
+		selclas(theclass);
+		
+		});
+         /*调整选中行的CSS样式*/  
+        $(this).parent().parent().toggleClass('warning');  
+        /*如果已经被选中行的行数等于表格的数据行数，将全选框设为选中状态，否则设为未选中状态*/  
+        $checkAll.prop('checked',$tbr.find('input:checked').length == $tbr.length ? true : false);  
+         /*阻止向上冒泡，以防再次触发点击操作*/  
+        event.stopPropagation();  
+        });  
+        /*点击每一行时也触发该行的选中操作*/  
+		$tbr.click(function(){  
+                    $(this).find('input').click(); 
+                });  
+        }  
+        initTableCheckbox();  
+}
+
+function selclas(event)
+{
+	var txt = "课程管理";
+	type = 2;//表示选择小班或大班
+	window.wxc.xcConfirm(txt, type, event, window.wxc.xcConfirm.typeEnum.confirm);
+}
+
+function showgroup()
+{
+	document.getElementById("mycour").style.display="none";//隐藏
+	document.getElementById("all_course").style.display="none";//隐藏
+	document.getElementById("mycl").style.display="none";//隐藏
+	document.getElementById("groupbox").style.display="";
+	document.getElementById("dl-menu-button").click();
+	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="none";
+}
+
+function selectclass()
+{
+	course = document.getElementById("selectcourse").value
+	var obj_td =  document.getElementById("rtrt");
+	$("#rtrt").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	course_id = course;
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/group/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
+function scls()
+{
+	course = document.getElementById("selectcourse").value
+	theclass = document.getElementById("rtrt").value
+	var post_data ={
+			"courseid":course,
+			"theclass":theclass,
+			};
+		$.ajax({
+			type : "POST", //要插入数据，所以是POST协议 
+			url : "/student/showgroup/", //注意结尾的斜线，否则会出现500错误
+			traditional:true,  //加上此项可以传数组
+			data : post_data, //JSON数据
+			success: function(mydata){
+				str = "";
+				for(var i = mydata["rr"] - 1; i >= 0;i--)
+				{
+					str += "<div class = \"grouptable\"><div style = \"width:90%\" class=\"panel panel-primary\"><div class=\"panel-heading\">第"+(i+1).toString()+"组</div><table class=\"table table-bordered"+ "table-hover\"><thead><tr class=\"success\"><th>#</th><th>学生编号</th><th>学生姓名</th></tr></thead>  <tbody>";
+					for(var j = 0; j < mydata["group_num"][i];j++)
+					{
+						str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["groups_id"][i][j]+10000000).toString()+"</td><td>"+mydata["groups_name"][i][j]+"</td></tr>";
+					}
+					str += "</tbody></table></div></div>";
+				}
+				document.getElementById("grouped").innerHTML = str;
+			}
+		});
+}
+
+function stugrade()
+{
+	course = document.getElementById("selectcourse").value
+	theclass = document.getElementById("rtrt").value
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/stumark/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			if(mydata["isstart"] == 1 && mydata["isparty"] == 0)
+			{
+				document.getElementById("pretable").innerHTML = mydata["mytable"];
+				document.getElementById("qqqq").click();
+			}
+			else
+			{
+				alert("不在评分时间内");
+			}
+		}
+	});
+}
+
+function all_grade()
+{
+	course = document.getElementById("selectcourse").value
+	theclass = document.getElementById("rtrt").value
+	var stunumber = []
+	var stugrade = []
+	$("#pretable input[type=text]").each(function () {
+		stunumber.push(this.value);
+	})
+	
+	$("#pretable select option:selected").each(function () {
+		stugrade.push(this.text)
+	})
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		"stunumber":stunumber,
+		"stugrade":stugrade,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/student/startmark/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+
+		}
+	});
+}
+
+function selectclass7()
+{
+	course = document.getElementById("selectcourse7").value
+	var obj_td =  document.getElementById("rtrt7");
+	$("#rtrt7").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/group/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
+function mygrade()
+{
+	document.getElementById("mycour").style.display="none";//隐藏
+	document.getElementById("all_course").style.display="none";//隐藏
+	document.getElementById("mycl").style.display="none";//隐藏
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("sg2").style.display="none";
+	document.getElementById("sg").style.display="";
+	document.getElementById("dl-menu-button").click();
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/mygrade/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		success: function(mydata){
+			str = "<div class=\"panel-group\"><div class=\"panel panel-primary\">";
+			for(var i =0; i < mydata["sum"];i++)
+			{
+				str += "<table class=\"table table-bordered table-hover\"><thead> <tr class=\"success\"><th colspan = 2 style=\"text-align:center\">"+mydata["coursename"][i]+"</th>   </tr></thead><tbody>"
+				for (var j =0; j < mydata["classsum"][i];j++)
+				{
+					str+= "<tr><td style = \"width:50%\">第"+mydata["classnumber"][i][j].toString()+"讲</td><td style = \"width:50%\">"+mydata["classgrade"][i][j].toString()+"</td></tr> ";
+				}
+				str += "</tbody></table>";
+			}
+			str+="</div></div>"
+			document.getElementById("showmygrade").innerHTML = str;
+		}
+	});
+}
+
+function myfile()
+{
+	document.getElementById("mma").click();
+	document.getElementById("dl-menu-button").click();
+}
+
+function all_file()
+{
+	document.getElementById("mycour").style.display="none";//隐藏
+	document.getElementById("all_course").style.display="none";//隐藏
+	document.getElementById("mycl").style.display="none";//隐藏
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="";
+	
+	senfile();
+	course = document.getElementById("selectcourse7").value
+	theclass = document.getElementById("rtrt7").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/thfile/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			str = "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">教师分享</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			
+			for(var k = 0; k < mydata["sum"];k++)
+			{
+				str+= "<a style = \"float:left;width:100%;font-size:18px\" href = \""+mydata["files"][k]+"\">"+mydata["filesname"][k]+"</a>";
+			}
+			str += "</div>";
+			
+			str += "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">学生展示</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			for(var i = 0; i < mydata["allstufile"]; i++)
+			{
+				str+="<a style = \"float:left;width:80%;font-size:18px\" href = \""+mydata["stuurl"][i]+"\">"+mydata["stufilename"][i]+"</a><a style = \"float:left;width:9%\">"+mydata["stuname"][i]+"</a><a style = \"float:left;width:9%\">第"+mydata["stugroup"][i]+"组</a>";
+			}
+			str += "</div>";
+			
+			str += "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">小组展示</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			for(var i = 0; i < mydata["gallstufile"]; i++)
+			{
+				str+="<a style = \"float:left;width:80%;font-size:18px\" href = \""+mydata["gstuurl"][i]+"\">"+mydata["gstufilename"][i]+"</a><a style = \"float:left;width:9%\">"+mydata["gstuname"][i]+"</a>";
+			}
+			str += "</div>";
+			document.getElementById("filelist").innerHTML = str;
+			theclassid = mydata["classid"]
+			senfile();
+		}
+	});
+}
+
+function senfile(){
+            //批量上传按钮
+            $('#id_upload').uploadify ({
+                'swf'		: '/static/js/uploadify.swf',
+                'uploader' 	: '/upload_image/',
+                'cancelImage' : '/static/css/cancel.png',
+                'buttonClass' : 'btn',
+                'checkExisting' : '/check_existing/',
+				'formData'      : {'classid':theclassid},  
+                'removeCompleted': true,
+                'fileTypeExts'   : '*',
+                'multi'		: true,
+                'auto'    : true,
+                'buttonText': '上传文件',
+                'onUploadSuccess' : function (file, data, response) {
+                    all_file();
+                }
+            });
+        }

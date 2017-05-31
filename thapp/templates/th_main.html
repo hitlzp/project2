@@ -12,8 +12,7 @@
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
 <link href="/static/css/build.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" href="/static/css/uploadify.css">
-<link rel="stylesheet" href="/static/css/myUploadify.css">
+<link rel="stylesheet" href="/static/css/uploadifive.css">
 
 
 <script type="text/javascript" src="/static/js/placeImage.js"></script>
@@ -30,7 +29,7 @@
 <script type="text/javascript" src="/static/js/jquery.table2excel.js"></script>
 <script type="text/javascript" src="/static/js/jquery.table2excel.min.js"></script>
 
-<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
+<script type="text/javascript" src="/static/js/jquery.uploadifive.js"></script>
 <title>翻转课堂</title>
 <head>
 
@@ -487,8 +486,8 @@ form{position:absolute;}
 	<div id = "showallfile" class = "main_view" style="display:none">
 		<div id = "filelist"></div>
 		<div style = "position:absolute;height:5%;width:11%;right:10px;top:95%">
-			<input type="file" id="id_upload" name="upload"/>
-			<a style = "position:absolute;color: #f9f8f8;font-size: 15px;left: 27%;top: 10%;font-family: -webkit-body;">上传文件</a>
+			<div id="queue"></div>
+			<input id="file_upload" name="file_upload" type="file" multiple="true">
 		</div>
 	</div>
 	<!-- 文件 end-->

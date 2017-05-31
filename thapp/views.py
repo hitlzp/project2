@@ -769,6 +769,7 @@ def check_existing(request):
     return HttpResponse('0')
 
 def upload_image(request):
+    print 1111
     reqfile = request.FILES['Filedata']
     classid = request.POST.get('classid')
     theid = request.user.id

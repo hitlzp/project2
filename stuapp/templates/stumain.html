@@ -12,8 +12,7 @@
 <link type="text/css" href="/static/css/style.css" rel="stylesheet">
 <link href="/static/css/component.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="/static/css/xcConfirm.css"/>
-<link rel="stylesheet" href="/static/css/uploadify.css">
-<link rel="stylesheet" href="/static/css/myUploadify.css">
+<link rel="stylesheet" href="/static/css/uploadifive.css">
 
 
 <script type="text/javascript" src="/static/js/jquery1.js"></script>
@@ -22,9 +21,9 @@
 <script type="text/javascript" src="/static/js/jquery.dlmenu.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
-<script type="text/javascript" src="/static/js/stumain.js"></script>
-<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
 
+<script type="text/javascript" src="/static/js/stumain.js"></script>
+<script type="text/javascript" src="/static/js/jquery.uploadifive.js"></script>
 
 
 </head>
@@ -108,11 +107,12 @@
 	<!--查看成绩 end-->
 	
 	<!--文件 start-->
-	<div id = "sg2" style="display:none;position: absolute;width: 100%;top: 15px;min-height:700px">
+	<div id = "sg2" style="display:none;position: absolute;width: 100%;top: 15px;min-height:1000px">
 		<div id = "filelist"></div>
+		
 		<div style = "position:absolute;height:5%;width:11%;right:10px;top:95%">
-			<input type="file" id="id_upload" name="upload"/>
-			<a style = "position:absolute;color: #f9f8f8;font-size: 15px;left: 20%;top: 10%;font-family: -webkit-body;">上传文件</a>
+		<div id="queue"></div>
+			<input id="file_upload" name="file_upload" type="file" multiple="true">
 		</div>
 	</div>
 	<!--文件 end-->
