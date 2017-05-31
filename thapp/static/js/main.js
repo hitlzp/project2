@@ -1383,7 +1383,6 @@ function all_file()
 			document.getElementById("filelist").innerHTML = str;
 			theclassid = mydata["classid"]
 			senfile();
-			senfile();
 		}
 	});
 }
@@ -1403,7 +1402,7 @@ function senfile(){
                 'auto'    : true,
                 'buttonText': '',
                 'onUploadSuccess' : function (file, data, response) {
-                    $("#instructions").before("<img src='/media/"+ data + "' />")
+                    all_file();
                 }
             });
         }

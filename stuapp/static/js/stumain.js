@@ -1,4 +1,5 @@
 var course_id = -1;
+var theclassid = -1;
 
 window.onload=function()
 {
@@ -38,6 +39,7 @@ function mycourse()
 	document.getElementById("mycl").style.display="none";//隐藏
 	document.getElementById("groupbox").style.display="none";
 	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="none";
 	document.getElementById("dl-menu-button").click();
 	$.ajax({
 		type : "POST", //要插入数据，所以是POST协议 
@@ -70,6 +72,7 @@ function allclass(event)
 	document.getElementById("all_course").style.display="none";//隐藏
 	document.getElementById("groupbox").style.display="none";
 	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="none";
 	var post_data ={
 			"courseid":event,
 			};
@@ -200,6 +203,7 @@ function showgroup()
 	document.getElementById("groupbox").style.display="";
 	document.getElementById("dl-menu-button").click();
 	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="none";
 }
 
 function selectclass()
@@ -313,12 +317,36 @@ function all_grade()
 	});
 }
 
+function selectclass7()
+{
+	course = document.getElementById("selectcourse7").value
+	var obj_td =  document.getElementById("rtrt7");
+	$("#rtrt7").empty();
+	var post_data ={
+			"courseid":course,
+			};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/group/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			obj_td.options[0]=new Option("请选择");
+			for(var i = 0; i < mydata["num"];i++)
+			{
+				obj_td.options[i+1]=new Option("第"+ mydata["myclass"][i].toString() + "讲");
+			}		 
+		}
+	});
+}
+
 function mygrade()
 {
 	document.getElementById("mycour").style.display="none";//隐藏
 	document.getElementById("all_course").style.display="none";//隐藏
 	document.getElementById("mycl").style.display="none";//隐藏
 	document.getElementById("groupbox").style.display="none";
+	document.getElementById("sg2").style.display="none";
 	document.getElementById("sg").style.display="";
 	document.getElementById("dl-menu-button").click();
 	$.ajax({
@@ -341,3 +369,80 @@ function mygrade()
 		}
 	});
 }
+
+function myfile()
+{
+	document.getElementById("mma").click();
+	document.getElementById("dl-menu-button").click();
+}
+
+function all_file()
+{
+	document.getElementById("mycour").style.display="none";//隐藏
+	document.getElementById("all_course").style.display="none";//隐藏
+	document.getElementById("mycl").style.display="none";//隐藏
+	document.getElementById("groupbox").style.display="none";
+	document.getElementById("sg").style.display="none";
+	document.getElementById("sg2").style.display="";
+	
+	senfile();
+	course = document.getElementById("selectcourse7").value
+	theclass = document.getElementById("rtrt7").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/student/thfile/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			str = "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">教师分享</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			
+			for(var k = 0; k < mydata["sum"];k++)
+			{
+				str+= "<a style = \"float:left;width:100%;font-size:18px\" href = \""+mydata["files"][k]+"\">"+mydata["filesname"][k]+"</a>";
+			}
+			str += "</div>";
+			
+			str += "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">学生展示</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			for(var i = 0; i < mydata["allstufile"]; i++)
+			{
+				str+="<a style = \"float:left;width:80%;font-size:18px\" href = \""+mydata["stuurl"][i]+"\">"+mydata["stufilename"][i]+"</a><a style = \"float:left;width:9%\">"+mydata["stuname"][i]+"</a><a style = \"float:left;width:9%\">第"+mydata["stugroup"][i]+"组</a>";
+			}
+			str += "</div>";
+			
+			str += "<div style = \"width: 100%;float: left;height: 7%;background: #61e0e0;text-align: center;\"><a style = \"font-size:25px\">小组展示</a></div><div style = \"width: 100%;float: left;height: 7%;\">";
+			for(var i = 0; i < mydata["gallstufile"]; i++)
+			{
+				str+="<a style = \"float:left;width:80%;font-size:18px\" href = \""+mydata["gstuurl"][i]+"\">"+mydata["gstufilename"][i]+"</a><a style = \"float:left;width:9%\">"+mydata["gstuname"][i]+"</a>";
+			}
+			str += "</div>";
+			document.getElementById("filelist").innerHTML = str;
+			theclassid = mydata["classid"]
+			senfile();
+		}
+	});
+}
+
+function senfile(){
+            //批量上传按钮
+            $('#id_upload').uploadify ({
+                'swf'		: '/static/js/uploadify.swf',
+                'uploader' 	: '/upload_image/',
+                'cancelImage' : '/static/css/cancel.png',
+                'buttonClass' : 'btn',
+                'checkExisting' : '/check_existing/',
+				'formData'      : {'classid':theclassid},  
+                'removeCompleted': true,
+                'fileTypeExts'   : '*',
+                'multi'		: true,
+                'auto'    : true,
+                'buttonText': '',
+                'onUploadSuccess' : function (file, data, response) {
+                    all_file();
+                }
+            });
+        }

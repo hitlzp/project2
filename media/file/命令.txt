@@ -1,0 +1,4 @@
+cd /d H:\github\project2
+python manage.py runserver 0.0.0.0:8000
+
+192.168.23.1

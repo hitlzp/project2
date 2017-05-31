@@ -12,14 +12,18 @@
 <link type="text/css" href="/static/css/style.css" rel="stylesheet">
 <link href="/static/css/component.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" type="text/css" href="/static/css/xcConfirm.css"/>
+<link rel="stylesheet" href="/static/css/uploadify.css">
+<link rel="stylesheet" href="/static/css/myUploadify.css">
 
 
-<script type="text/javascript" src="/static/js/jquery2.js"></script>
+<script type="text/javascript" src="/static/js/jquery1.js"></script>
+<script type="text/javascript" src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/js/modernizr.custom.js"></script>
 <script type="text/javascript" src="/static/js/jquery.dlmenu.js"></script>
 <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 <script src="/static/js/xcConfirm.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript" src="/static/js/stumain.js"></script>
+<script type="text/javascript" src="/static/js/jquery.uploadify.js"></script>
 
 
 
@@ -35,6 +39,7 @@
 			<li><a href="javascript:void(0)" onclick = "mycourse()">我的课程</a></li>
 			<li><a href="javascript:void(0)" onclick = "showgroup()">翻转课堂</a></li>
 			<li><a href="javascript:void(0)" onclick = "mygrade()">成绩</a></li>
+			<li><a href="javascript:void(0)" onclick = "myfile()">文件</a></li>
 			<li><a href="/student/logout/" >注销</a></li>
 		</ul>
 	</div>
@@ -101,6 +106,16 @@
 		<div id = "showmygrade"></div>
 	</div>
 	<!--查看成绩 end-->
+	
+	<!--文件 start-->
+	<div id = "sg2" style="display:none;position: absolute;width: 100%;top: 15px;min-height:700px">
+		<div id = "filelist"></div>
+		<div style = "position:absolute;height:5%;width:11%;right:10px;top:95%">
+			<input type="file" id="id_upload" name="upload"/>
+			<a style = "position:absolute;color: #f9f8f8;font-size: 15px;left: 20%;top: 10%;font-family: -webkit-body;">上传文件</a>
+		</div>
+	</div>
+	<!--文件 end-->
 </div>
 
 <script type="text/javascript">
@@ -130,5 +145,32 @@ $(function(){
 	</div>
 </div>
 <!--评分表 end-->
+
+<!--进入文件共享 start-->
+<button type="button" id = "mma" data-toggle="modal" data-target="#templatemo_modal5" style = "display:none">课程选择</button>
+<div class="modal fade" id="templatemo_modal5" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">课程</h4>
+				<br></br>
+				<div class = "managecoursecss" style = "height:100px">
+					<select id="selectcourse7" class="styled-select" style = "display:inline-block;width:49%;height:30px" data-style="btn-inverse" onchange= "selectclass7()"> 
+							<option value = -1 selected>课程列表
+							{% for c in all_course %}
+								<option value ={{c.id}}>{{c.cname}}</option>
+							{% endfor %}
+							
+					</select>
+					<select id = "rtrt7"  style = "width:49%;height:30px">
+					</select>
+					<button type="button" class = "btn btn-primary" style = "width:15%;position:absolute;right:3%;bottom:8%" data-dismiss="modal" onclick = "all_file()">进入</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--进入文件共享 end-->
 </body>
 </html>

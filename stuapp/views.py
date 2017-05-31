@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 from django.shortcuts import render
 from django.contrib.auth.models import User
-from thapp.models import Course, All_class, Group, Stutable, Inclass
+from thapp.models import Course, All_class, Group, Stutable, Inclass,all_file
 from django.contrib import auth
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
@@ -11,6 +11,7 @@ from stuapp.models import Stucourse
 # Create your views here.
 import time
 import re
+import urllib
 
 def main_s(request):#学生主页
     c = "您还未登陆"
@@ -450,3 +451,53 @@ def mygrade(request):
         classgrade.append(temp2)
     content = {"coursename":coursename, "classnumber":classnumber, "classgrade":classgrade, "sum":len(courseid), "classsum":classsum}
     return JsonResponse(content)
+
+def theafile2(request):
+    files = []
+    filesname = []
+    stuname = []
+    stuurl = []
+    stufilename = []
+    gstuname = []
+    gstuurl = []
+    gstufilename = []
+    stugroup = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            theuser = request.user.id
+            
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                gid = Group.objects.filter(stu_id = theuser, course_id = classid)[0].groupid
+                allfile = all_file.objects.filter(theclass_id = classid)
+                print len(allfile)
+                for f in allfile:
+                    gg = Group.objects.filter(stu_id = f.theuser_id, course_id = classid)
+                    if User.objects.filter(id = f.theuser_id)[0].first_name == 't':
+                        files.append(f.file.url)
+                        s = f.file.url.split('/')[len(f.file.url.split('/')) - 1]
+                        urllib.unquote(str(s)).decode('utf8') 
+                        filesname.append(urllib.unquote(str(s)).decode('utf8'))
+                    elif gg:
+                        if gg[0].groupid == gid:
+                            gstuname.append(User.objects.filter(id = f.theuser_id)[0].username)
+                            gstuurl.append(f.file.url)
+                            s = f.file.url.split('/')[len(f.file.url.split('/')) - 1]
+                            urllib.unquote(str(s)).decode('utf8')
+                            gstufilename.append(urllib.unquote(str(s)).decode('utf8'))
+                        else:
+                            stuname.append(User.objects.filter(id = f.theuser_id)[0].username)
+                            stugroup.append(gg[0].groupid)
+                            stuurl.append(f.file.url)
+                            s = f.file.url.split('/')[len(f.file.url.split('/')) - 1]
+                            urllib.unquote(str(s)).decode('utf8')
+                            stufilename.append(urllib.unquote(str(s)).decode('utf8'))
+                content = {"files":files, "sum":len(files), "allstufile":len(stuname), "stuname":stuname, "stuurl":stuurl,
+                               "filesname":filesname, "stufilename":stufilename, "stugroup":stugroup, "classid":classid,\
+                               "gstuname":gstuname, "gstuurl":gstuurl,"gstufilename":gstufilename,"gallstufile":len(gstuname)}
+                print filesname
+                return JsonResponse(content)

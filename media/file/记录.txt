@@ -1,0 +1,34 @@
+上传文件
+def theafile(request):
+    files = []
+    filesname = []
+    stuname = []
+    stuurl = []
+    stufilename = []
+    stugroup = []
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            theclass = int(re.findall("\d+", theclass)[0])
+            theuser = request.user.id
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                allfile = all_file.objects.filter(theclass_id = classid)
+                print len(allfile)
+                for f in allfile:
+                    if f.id == theuser:
+                        files.append(f.file.url)
+                        filesname.append(f.file.url.split('/')[len(f.file.url.split('/')) - 1])
+                    else:
+                        gg = Group.objects.filter(stu_id = f.theuser_id, course_id = classid)
+                        if gg:
+                            stuname.append(User.objects.filter(id = f.theuser_id)[0].username)
+                            stugroup.append(gg[0].groupid)
+                            stuurl.append(f.file.url)
+                            stufilename.append(f.file.url.split('/')[len(f.file.url.split('/')) - 1])
+                content = {"files":files, "sum":len(files), "allstufile":len(stuname), "stuname":stuname, "stuurl":stuurl,
+                               "filesname":filesname, "stufilename":stufilename, "stugroup":stugroup, "classid":classid}
+                print files
+                return JsonResponse(content)

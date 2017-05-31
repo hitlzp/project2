@@ -20,7 +20,7 @@ sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgrou
 upload_image,check_existing,theafile
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
-delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s
+delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s,theafile2
 from django.conf.urls.static import static
 from django.conf import settings
 
@@ -55,6 +55,7 @@ urlpatterns = [
     url(r"^check_existing/$",check_existing),
     url(r"^upload_image/$",upload_image),
     url(r"^teacher/thfile/$",theafile),
+    url(r"^student/thfile/$",theafile2),
     
     url(r'^student/login/$', main_s),
     url(r'^student/main/$', student_main),

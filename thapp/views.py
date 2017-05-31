@@ -778,7 +778,7 @@ def upload_image(request):
                    theuser_id = theid,
                    )
     add.save()
-    return HttpResponse(reqfile.name)
+    return HttpResponse(1)
 
 def theafile(request):
     files = []
