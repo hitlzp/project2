@@ -1458,6 +1458,7 @@ function saveconfig()
 		data : post_data, //JSON数据
 		success: function(mydata){
 			alert("更新完成！");
+			selclas();
 		}
 	});
 }
