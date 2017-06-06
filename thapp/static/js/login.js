@@ -79,7 +79,7 @@ $(document).ready(function() {
 				border: "1px solid red",
 				boxShadow: "0 0 2px red"
 			});
-			$('#userCue').html("<font color='red'><b>×用户名位4-16字符</b></font>");
+			$('#userCue').html("<font color='red'><b>×用户名位2-5个字符</b></font>");
 			return false;
 
 		}

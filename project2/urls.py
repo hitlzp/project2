@@ -15,9 +15,9 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 from thapp.views import main, logout, Addcourse, Mycourse, CheckedCourse, ChangeCourse,  Editclass,\
-Myclas, MGroup, SaveGroup, ShowGroup,Stutenttable, Showmodel,showtable,showteatable,endmark, showgradetable, class_mark,\
+Myclas, MGroup, SaveGroup, ShowGroup,Stutenttable, Showmodel,showtable,showteatable,endmark, showgradetable,\
 sendgradetable,Myclas2, isparty,savepartytable, showisparty,randgs,startrandgroup,startrandstu,test,\
-upload_image,check_existing,theafile
+upload_image,check_existing,theafile,Saveconfig,Myconfig
 
 from stuapp.views import main_s,student_main,stuaddcourse,listmycourse, listall,studelecourse,myclass,select_class,\
 delete_class,selectclass,showgroupstu,stumark, stustartmark, mygrade,logout_s,theafile2 
@@ -44,7 +44,6 @@ urlpatterns = [
     url(r'^teacher/showmodel/$', Showmodel),
     url(r'^teacher/showgrouptable/$', showtable),
     url(r'^teacher/showteatable/$', showteatable),
-    url(r'^teacher/classmark/$', class_mark),
     url(r'^teacher/sendgradetable/$', sendgradetable),
     url(r'^teacher/showpartytable/$', isparty),
     url(r'^teacher/savepartytable/$', savepartytable),
@@ -55,6 +54,8 @@ urlpatterns = [
     url(r"^check_existing/$",check_existing),
     url(r"^upload_image/$",upload_image),
     url(r"^teacher/thfile/$",theafile),
+    url(r"^teacher/saveconfig/$",Saveconfig),
+    url(r"^teacher/myconfig/$",Myconfig),
     url(r"^student/thfile/$",theafile2),
     
     url(r'^student/login/$', main_s),

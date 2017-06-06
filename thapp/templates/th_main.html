@@ -391,6 +391,7 @@ form{position:absolute;}
 				<div style = "display:inline-block; width:15%">
 					<button type="button" class="btn btn-primary" onclick = "confirmtsth3(5)">保存评分表</button>
 				</div>
+
 			</div>
 		</div>
 		<div class = "rightslider">
@@ -418,7 +419,7 @@ form{position:absolute;}
 				</select>
 			</div>
 			
-			<button id = "subm2" type="button" class = "btn btn-primary" style = "width: 9%;position:absolute;left:70%;display:none" onclick = "submitgrade2()">提交结果</button>
+			<button id = "zzz" type="button" class="btn btn-primary" data-toggle="modal" data-target="#templatemo_modal6" style = "width: 9%;position:absolute;left:90%" onclick = "myconfig()">配置管理</button>
 			<button type="button" class = "btn btn-primary" style = "width: 9%;position:absolute;left:80%" onclick = "exporttable()">导出成绩单</button>
 			<button id = "stuavail" type="button" class='btn btn-primary' style = "width: 9%;position:absolute;left:90%" onclick = "sendtable()">发布成绩单</button>
 		</div>
@@ -716,6 +717,210 @@ $(function(){
 	</div>
 </div>
 <!--进入文件共享 end-->
+
+<!--配置 start-->
+<div class="modal fade" id="templatemo_modal6" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	    <div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title" id="myModalLabel">配置</h4>
+
+				<div class = "managecoursecss" style = "height:780px">
+					<div style = "width:100%">
+						<div>
+						<a style = "font-size:20px">组内互评：</a>
+						</div>
+						<br></br>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">A:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "IngratioA" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control" value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">B:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "IngratioB" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control" value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">C:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "IngratioC" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control" value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">D:</a></label> 
+						</div>
+						<div style = "display:inline;width:20%;float:left">
+							<input id = "IngratioD" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control" value=0><br />
+						</div>
+					</div>
+					<div style = "width:100%">
+						<div>
+						<a style = "font-size:20px">组间互评：</a>
+						</div>
+						<br></br>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">A:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TogratioA" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0 ><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">B:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TogratioB" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0 ><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">C:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TogratioC" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0 ><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">D:</a></label> 
+						</div>
+						<div style = "display:inline;width:20%;float:left">
+							<input id = "TogratioD" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0 ><br />
+						</div>
+					</div>
+					
+					<div style = "width:100%">
+						<div>
+						<a style = "font-size:20px">学生自评：</a>
+						</div>
+						<br></br>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">A:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "SelfratioA" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">B:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "SelfratioB" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">C:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "SelfratioC" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">D:</a></label> 
+						</div>
+						<div style = "display:inline;width:20%;float:left">
+							<input id = "SelfratioD" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+					</div>
+					
+					<div style = "width:100%">
+						<div>
+						<a style = "font-size:20px">其他评价：</a>
+						</div>
+						<br></br>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">A:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "OtherratioA" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">B:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "OtherratioB" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">C:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "OtherratioC" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">D:</a></label> 
+						</div>
+						<div style = "display:inline;width:20%;float:left">
+							<input id = "OtherratioD" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+					</div>
+					
+					<div style = "width:100%">
+						<div>
+						<a style = "font-size:20px">教师评价：</a>
+						</div>
+						<br></br>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">A:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TtosratioA" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">B:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TtosratioB" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">C:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TtosratioC" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">D:</a></label> 
+						</div>
+						<div style = "display:inline;width:20%;float:left">
+							<input id = "TtosratioD" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+					</div>
+					
+					<div style = "width:100%">
+						<div>
+						<a style = "font-size:20px">教师组评：</a>
+						</div>
+						<br></br>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">A:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TtogratioA" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">B:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TtogratioB" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">C:</a></label> 
+						</div>
+						<div style = " display:inline;width:20%;float:left">
+							<input id = "TtogratioC" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+						<div style = " display:inline;width:5%;float:left">
+							<label for="cname"><a style = "font-family: cursive;font-size: 18px;color: #626262;">D:</a></label> 
+						</div>
+						<div style = "display:inline;width:20%;float:left">
+							<input id = "TtogratioD" onkeyup="value=value.replace(/[^\d\.]/g,'')" onblur="value=value.replace(/[^\d\.]/g,'')" class = "form-control"  value=0><br />
+						</div>
+					</div>
+					
+					
+					
+					<button type="button" class = "btn btn-primary" style = "width:15%;position:absolute;right:0;bottom:2%" data-dismiss="modal" onclick = "saveconfig()">提交</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!--配置 end-->
 <script type="text/javascript">
     $("#datetimepicker").datetimepicker({
         format: 'yyyy-mm-dd hh:ii',

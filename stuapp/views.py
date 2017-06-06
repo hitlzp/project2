@@ -313,6 +313,9 @@ def showgroupstu(request):
 
 def stumark(request):
     isstart = 0
+    groupmemid = []
+    thegroupid = []
+    groupnum = 0
     if request.POST:
         if request.is_ajax():
             courseid = request.POST.get('courseid')
@@ -320,8 +323,22 @@ def stumark(request):
             theclass = int(re.findall("\d+", theclass)[0])
             
             all_class = All_class.objects.filter(course_id = int(courseid), number = theclass)
+            
             if all_class:
                 classid = all_class[0].id
+                stuid = request.user.id
+                groupid = Group.objects.filter(course_id = classid, stu_id= stuid)[0].groupid
+                gg = Group.objects.filter(course_id = classid, groupid = groupid)
+                ww = Group.objects.filter(course_id = classid)
+                for w in ww:
+                    if w.groupid > groupnum:
+                        groupnum = w.groupid
+                for i in range(1, groupnum+1):
+                    if not i == groupid:
+                        thegroupid.append(i)
+                for g in gg:
+                    if not g.stu_id == stuid:
+                        groupmemid.append(g.stu_id)
                 all_mark = Inclass.objects.filter(theclass_id = classid)
                 if all_mark:
                     isstart = 1
@@ -334,7 +351,8 @@ def stumark(request):
                         
                         stuid = request.user.id
                         isparty = Group.objects.filter(course_id = classid, stu_id = stuid)[0].isparty
-                        content = {"mytable":mytable, "tablerand":tablerand, "isstart":isstart, "isparty":isparty}
+                        content = {"mytable":mytable, "tablerand":tablerand, "isstart":isstart, "isparty":isparty,\
+                                   "groupmemid":groupmemid, "groupsum":len(groupmemid), "thegroupid":thegroupid,"thegroupsum":len(thegroupid)}
                         return JsonResponse(content)
                     
 def stustartmark(request):
@@ -364,7 +382,9 @@ def stustartmark(request):
                     count2 = 0
                     for therand in atablerand:
                         if int(therand) == 1:
+                            print 1
                             for i in range(0, groupnum):
+                                print "count = "+ str(count)
                                 if not stunumber[count] == '':
                                     haha = int(stunumber[count]) - 10000000
                                 else:
@@ -380,6 +400,7 @@ def stustartmark(request):
                                     count2 = count2 + 1
                         
                         elif int(therand) == 2:
+                            print 2
                             for i in range(0, groupsum):
                                 if not stunumber[count] == '':
                                     haha = int(stunumber[count])
@@ -396,11 +417,13 @@ def stustartmark(request):
                                     count2 = count2 + 1
                                
                         elif int(therand) == 3:
+                            print 3
                             stuid = request.user.id
                             pregrade = Group.objects.filter(course_id = classid, stu_id = stuid)[0].stumark3
                             Group.objects.filter(course_id = classid, stu_id = stuid).update(stumark3 = pregrade + astugrade[count2])
                             count2 = count2 + 1
                         elif int(therand) == 4:
+                            print 4
                             if not stunumber[count] == '':
                                 haha = int(stunumber[count])- 10000000
                             else:
@@ -414,7 +437,7 @@ def stustartmark(request):
                             else:
                                 count = count + 1
                                 count2 = count2 + 1
-                    
+                    print 8888
                     stuid = request.user.id
                     Group.objects.filter(course_id = classid, stu_id = stuid).update(isparty = 1)
     return JsonResponse({"rr":1})
@@ -433,7 +456,7 @@ def mygrade(request):
         all_class = All_class.objects.filter(id = group.course_id)
         if all_class:
             if all_class[0].isaval == 1:
-                if not all_class[0].id in courseid:
+                if not all_class[0].course_id in courseid:
                     courseid.append(all_class[0].course_id)
     for thcourse in courseid:
         coursename.append(Course.objects.filter(id = thcourse)[0].cname)
@@ -449,6 +472,7 @@ def mygrade(request):
         classsum.append(len(temp))
         classnumber.append(temp)
         classgrade.append(temp2)
+    print courseid
     content = {"coursename":coursename, "classnumber":classnumber, "classgrade":classgrade, "sum":len(courseid), "classsum":classsum}
     return JsonResponse(content)
 

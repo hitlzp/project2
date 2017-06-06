@@ -4,7 +4,7 @@ from django.shortcuts import HttpResponse, render_to_response
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.contrib import auth
-from models import Course, All_class, Group, Stutable,Inclass,all_file
+from models import Course, All_class, Group, Stutable,Inclass,all_file,Config
 from django.http import JsonResponse
 from stuapp.models import Stucourse
 import uuid
@@ -20,7 +20,7 @@ import urllib
 # Create your views here.
 
 def test(request):
-    return render_to_response("index.html")
+    return render_to_response("index.html") 
 def main(request):#教师主页
     c = "您还未登陆！"
     if request.user.id:
@@ -44,6 +44,7 @@ def reg_t(request):#教师注册
     if request.POST:
         post = request.POST
         username = post["user"]
+        print username
         password = post["passwd"]
         email = post["qq"]
         if username and password and email:
@@ -447,6 +448,8 @@ def Stutenttable(request):
             tablerand = request.POST.get('tablerand')
             groupsum = request.POST.get('groupsum')
             groupnum = request.POST.get('groupnum')
+            print groupsum
+            print groupnum
             print teacherid
             print mytable
             print tablename
@@ -524,6 +527,7 @@ def showteatable(request):#教师评分表
                               theclass_id = classid,
                               )
                 add.save()
+                Group.objects.filter(course_id = classid).update(isparty = 0)
                 content = {"stuid":stu_id,"stuname":stu_name,"stunum":len(stu_id), "groupnum":maxgroup, "rr":1}
                 return JsonResponse(content)
             
@@ -564,6 +568,7 @@ def endmark(request):
                         for thg in thgroup:
                             Group.objects.filter(id = thg.id).update(thmark2 = thg.thmark2 + stugrade[count])
                         count = count + 1
+                Group.objects.filter(course_id = classid).update(isparty = 1)
                 return JsonResponse({"rr":1})
           
 def showgradetable(request):
@@ -577,6 +582,7 @@ def showgradetable(request):
     th = []
     thgroup = []
     flag = 0
+    stugrade = [0]*200
     if request.POST:
         if request.is_ajax():
             courseid = request.POST.get('courseid')
@@ -586,50 +592,87 @@ def showgradetable(request):
             if myclass:
                 classid = myclass[0].id
                 all_group = Group.objects.filter(course_id = classid)
-                for group in all_group:
-                    stuid.append(group.stu_id)
-                    stuname.append(User.objects.filter(id = group.stu_id)[0].username)
-                    temp.append(group.stumark1.count('A'))
-                    temp.append(group.stumark1.count('B'))
-                    temp.append(group.stumark1.count('C'))
-                    temp.append(group.stumark1.count('D'))
-                    grouptogroup.append(temp)
-                    temp = []
-                    temp.append(group.stumark2.count('A'))
-                    temp.append(group.stumark2.count('B'))
-                    temp.append(group.stumark2.count('C'))
-                    temp.append(group.stumark2.count('D'))
-                    ingroup.append(temp)
-                    temp = []
-                    temp.append(group.stumark3.count('A'))
-                    temp.append(group.stumark3.count('B'))
-                    temp.append(group.stumark3.count('C'))
-                    temp.append(group.stumark3.count('D'))
-                    theself.append(temp)
-                    temp = []
-                    temp.append(group.stumark4.count('A'))
-                    temp.append(group.stumark4.count('B'))
-                    temp.append(group.stumark4.count('C'))
-                    temp.append(group.stumark4.count('D'))
-                    other.append(temp)
-                    temp = []
-                    temp.append(group.thmark1.count('A'))
-                    temp.append(group.thmark1.count('B'))
-                    temp.append(group.thmark1.count('C'))
-                    temp.append(group.thmark1.count('D'))
-                    th.append(temp)
-                    temp = []
-                    temp.append(group.thmark2.count('A'))
-                    temp.append(group.thmark2.count('B'))
-                    temp.append(group.thmark2.count('C'))
-                    temp.append(group.thmark2.count('D'))
-                    thgroup.append(temp)
-                    
-                    if group.classmark == '':
-                        flag = 1
-                content = {"grouptogroup":grouptogroup, "ingroup":ingroup, "theself":theself, "other":other,\
-                           "th":th, "thgroup":thgroup, "sum":len(stuid), "stuid":stuid, "stuname":stuname, "flag":flag}
-                return JsonResponse(content)
+                i = 0
+                con = Config.objects.filter(theclass_id = classid)
+                if con:
+                    for group in all_group:
+                        stuid.append(group.stu_id)
+                        stuname.append(User.objects.filter(id = group.stu_id)[0].username)
+                        temp.append(group.stumark1.count('A'))
+                        temp.append(group.stumark1.count('B'))
+                        temp.append(group.stumark1.count('C'))
+                        temp.append(group.stumark1.count('D'))
+                        grouptogroup.append(temp)
+                        temp = []
+                        temp.append(group.stumark2.count('A'))
+                        temp.append(group.stumark2.count('B'))
+                        temp.append(group.stumark2.count('C'))
+                        temp.append(group.stumark2.count('D'))
+                        ingroup.append(temp)
+                        temp = []
+                        temp.append(group.stumark3.count('A'))
+                        temp.append(group.stumark3.count('B'))
+                        temp.append(group.stumark3.count('C'))
+                        temp.append(group.stumark3.count('D'))
+                        theself.append(temp)
+                        temp = []
+                        temp.append(group.stumark4.count('A'))
+                        temp.append(group.stumark4.count('B'))
+                        temp.append(group.stumark4.count('C'))
+                        temp.append(group.stumark4.count('D'))
+                        other.append(temp)
+                        temp = []
+                        temp.append(group.thmark1.count('A'))
+                        temp.append(group.thmark1.count('B'))
+                        temp.append(group.thmark1.count('C'))
+                        temp.append(group.thmark1.count('D'))
+                        th.append(temp)
+                        temp = []
+                        temp.append(group.thmark2.count('A'))
+                        temp.append(group.thmark2.count('B'))
+                        temp.append(group.thmark2.count('C'))
+                        temp.append(group.thmark2.count('D'))
+                        thgroup.append(temp)
+                        if group.classmark == 0:
+                            flag = 1
+                            
+                        stugrade[i] = stugrade[i] + group.stumark1.count('A') * con[0].IngratioA
+                        stugrade[i] = stugrade[i] + group.stumark1.count('B') * con[0].IngratioB
+                        stugrade[i] = stugrade[i] + group.stumark1.count('C') * con[0].IngratioC
+                        stugrade[i] = stugrade[i] + group.stumark1.count('D') * con[0].IngratioD
+                        
+                        stugrade[i] = stugrade[i] + group.stumark2.count('A') * con[0].TogratioA
+                        stugrade[i] = stugrade[i] + group.stumark2.count('B') * con[0].TogratioB
+                        stugrade[i] = stugrade[i] + group.stumark2.count('C') * con[0].TogratioC
+                        stugrade[i] = stugrade[i] + group.stumark2.count('D') * con[0].TogratioD
+                        
+                        stugrade[i] = stugrade[i] + group.stumark3.count('A') * con[0].SelfratioA
+                        stugrade[i] = stugrade[i] + group.stumark3.count('B') * con[0].SelfratioB
+                        stugrade[i] = stugrade[i] + group.stumark3.count('C') * con[0].SelfratioC
+                        stugrade[i] = stugrade[i] + group.stumark3.count('D') * con[0].SelfratioD
+                        
+                        stugrade[i] = stugrade[i] + group.stumark4.count('A') * con[0].OtherratioA
+                        stugrade[i] = stugrade[i] + group.stumark4.count('B') * con[0].OtherratioB
+                        stugrade[i] = stugrade[i] + group.stumark4.count('C') * con[0].OtherratioC
+                        stugrade[i] = stugrade[i] + group.stumark4.count('D') * con[0].OtherratioD
+                        
+                        stugrade[i] = stugrade[i] + group.thmark1.count('A') * con[0].TtosratioA
+                        stugrade[i] = stugrade[i] + group.thmark1.count('B') * con[0].TtosratioB
+                        stugrade[i] = stugrade[i] + group.thmark1.count('C') * con[0].TtosratioC
+                        stugrade[i] = stugrade[i] + group.thmark1.count('D') * con[0].TtosratioD
+                        
+                        stugrade[i] = stugrade[i] + group.thmark2.count('A') * con[0].TtogratioA
+                        stugrade[i] = stugrade[i] + group.thmark2.count('B') * con[0].TtogratioB
+                        stugrade[i] = stugrade[i] + group.thmark2.count('C') * con[0].TtogratioC
+                        stugrade[i] = stugrade[i] + group.thmark2.count('D') * con[0].TtogratioD
+                        
+                        
+                        Group.objects.filter(course_id = classid, stu_id = group.stu_id).update(classmark = stugrade[i])
+                        i = i+1
+                    content = {"grouptogroup":grouptogroup, "ingroup":ingroup, "theself":theself, "other":other,\
+                               "th":th, "thgroup":thgroup, "sum":len(stuid), "stuid":stuid, "stuname":stuname, "flag":flag,\
+                               "stugrade":stugrade}
+                    return JsonResponse(content)
 
 def isparty(request):
     stuid = []
@@ -689,22 +732,6 @@ def savepartytable(request):
                     else:
                         Group.objects.filter(id = all_class[i-1].id).update(isaval = 0)
                 
-                return JsonResponse({"rr":1})
-            
-            
-def class_mark(request):
-    if request.POST:
-        if request.is_ajax():
-            courseid = request.POST.get('courseid')
-            theclass = request.POST.get('theclass')
-            grade = request.POST.getlist('grade')
-            theclass = int(re.findall("\d+", theclass)[0])
-            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
-            if myclass:
-                classid = myclass[0].id
-                all_group = Group.objects.filter(course_id = classid)
-                for i in range(0, len(all_group)):
-                    Group.objects.filter(id = all_group[i].id).update(classmark = grade[i])
                 return JsonResponse({"rr":1})
             
 def sendgradetable(request):
@@ -817,4 +844,167 @@ def theafile(request):
                 content = {"files":files, "sum":len(files), "allstufile":len(stuname), "stuname":stuname, "stuurl":stuurl,
                                "filesname":filesname, "stufilename":stufilename, "stugroup":stugroup, "classid":classid}
                 print filesname
+                return JsonResponse(content)
+            
+def Saveconfig(request):
+    if request.POST:
+        if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            
+            IngratioA = request.POST.get('IngratioA')
+            IngratioB = request.POST.get('IngratioB')
+            IngratioC = request.POST.get('IngratioC')
+            IngratioD = request.POST.get('IngratioD')
+            
+            TogratioA = request.POST.get('TogratioA')
+            TogratioB = request.POST.get('TogratioB')
+            TogratioC = request.POST.get('TogratioC')
+            TogratioD = request.POST.get('TogratioD')
+            
+            SelfratioA = request.POST.get('SelfratioA')
+            SelfratioB = request.POST.get('SelfratioB')
+            SelfratioC = request.POST.get('SelfratioC')
+            SelfratioD = request.POST.get('SelfratioD')
+            
+            OtherratioA = request.POST.get('OtherratioA')
+            OtherratioB = request.POST.get('OtherratioB')
+            OtherratioC = request.POST.get('OtherratioC')
+            OtherratioD = request.POST.get('OtherratioD')
+            
+            TtosratioA = request.POST.get('TtosratioA')
+            TtosratioB = request.POST.get('TtosratioB')
+            TtosratioC = request.POST.get('TtosratioC')
+            TtosratioD = request.POST.get('TtosratioD')
+            
+            TtogratioA = request.POST.get('TtogratioA')
+            TtogratioB = request.POST.get('TtogratioB')
+            TtogratioC = request.POST.get('TtogratioC')
+            TtogratioD = request.POST.get('TtogratioD')
+            
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                
+                if Config.objects.filter(theclass_id = classid):
+                    Config.objects.filter(theclass_id = classid).update(
+                                                                        IngratioA = IngratioA,
+                                                                        IngratioB = IngratioB,
+                                                                        IngratioC = IngratioC,
+                                                                        IngratioD = IngratioD,
+                                                                        
+                                                                        TogratioA = TogratioA,
+                                                                        TogratioB = TogratioB,
+                                                                        TogratioC = TogratioC,
+                                                                        TogratioD = TogratioD,
+                                                                        
+                                                                        SelfratioA = SelfratioA,
+                                                                        SelfratioB = SelfratioB,
+                                                                        SelfratioC = SelfratioC,
+                                                                        SelfratioD = SelfratioD,
+                                                                        
+                                                                        OtherratioA = OtherratioA,
+                                                                        OtherratioB = OtherratioB,
+                                                                        OtherratioC = OtherratioC,
+                                                                        OtherratioD = OtherratioD,
+                                                                        
+                                                                        TtosratioA = TtosratioA,
+                                                                        TtosratioB = TtosratioB,
+                                                                        TtosratioC = TtosratioC,
+                                                                        TtosratioD = TtosratioD,
+                                                                        
+                                                                        TtogratioA = TtogratioA,
+                                                                        TtogratioB = TtogratioB,
+                                                                        TtogratioC = TtogratioC,
+                                                                        TtogratioD = TtogratioD,
+                                                                        )
+                    
+                else:
+                    add = Config(
+                                theclass_id = classid,
+                                
+                                IngratioA = IngratioA,
+                                IngratioB = IngratioB,
+                                IngratioC = IngratioC,
+                                IngratioD = IngratioD,
+                                                                        
+                                TogratioA = TogratioA,
+                                TogratioB = TogratioB,
+                                TogratioC = TogratioC,
+                                TogratioD = TogratioD,
+                                                                        
+                                SelfratioA = SelfratioA,
+                                SelfratioB = SelfratioB,
+                                SelfratioC = SelfratioC,
+                                SelfratioD = SelfratioD,
+                                                                        
+                                OtherratioA = OtherratioA,
+                                OtherratioB = OtherratioB,
+                                OtherratioC = OtherratioC,
+                                OtherratioD = OtherratioD,
+                                                                        
+                                TtosratioA = TtosratioA,
+                                TtosratioB = TtosratioB,
+                                TtosratioC = TtosratioC,
+                                TtosratioD = TtosratioD,
+                                                                        
+                                TtogratioA = TtogratioA,
+                                TtogratioB = TtogratioB,
+                                TtogratioC = TtogratioC,
+                                TtogratioD = TtogratioD,
+                                 )
+                    add.save()
+                return JsonResponse({"rr":1})
+            
+def Myconfig(request):
+    flag = 0
+    if request.is_ajax():
+            courseid = request.POST.get('courseid')
+            theclass = request.POST.get('theclass')
+            
+            theclass = int(re.findall("\d+", theclass)[0])
+            myclass  = All_class.objects.filter(number = theclass, course_id = int(courseid))
+            if myclass:
+                classid = myclass[0].id
+                
+                myconfig = Config.objects.filter(theclass_id = classid)
+                if myconfig:
+                    flag = 1
+                    IngratioA = myconfig[0].IngratioA,
+                    IngratioB = myconfig[0].IngratioB,
+                    IngratioC = myconfig[0].IngratioC,
+                    IngratioD = myconfig[0].IngratioD,
+                                                                        
+                    TogratioA = myconfig[0].TogratioA,
+                    TogratioB = myconfig[0].TogratioB,
+                    TogratioC = myconfig[0].TogratioC,
+                    TogratioD = myconfig[0].TogratioD,
+                                                                        
+                    SelfratioA = myconfig[0].SelfratioA,
+                    SelfratioB = myconfig[0].SelfratioB,
+                    SelfratioC = myconfig[0].SelfratioC,
+                    SelfratioD = myconfig[0].SelfratioD,
+                                                                        
+                    OtherratioA = myconfig[0].OtherratioA,
+                    OtherratioB = myconfig[0].OtherratioB,
+                    OtherratioC = myconfig[0].OtherratioC,
+                    OtherratioD = myconfig[0].OtherratioD,
+                                                                        
+                    TtosratioA = myconfig[0].TtosratioA,
+                    TtosratioB = myconfig[0].TtosratioB,
+                    TtosratioC = myconfig[0].TtosratioC,
+                    TtosratioD = myconfig[0].TtosratioD,
+                                                                        
+                    TtogratioA = myconfig[0].TtogratioA,
+                    TtogratioB = myconfig[0].TtogratioB,
+                    TtogratioC = myconfig[0].TtogratioC,
+                    TtogratioD = myconfig[0].TtogratioD,
+                    
+                content = {"IngratioA":IngratioA,"IngratioB":IngratioB,"IngratioC":IngratioC,"IngratioD":IngratioD,\
+                           "TogratioA":TogratioA,"TogratioB":TogratioB,"TogratioC":TogratioC,"TogratioD":TogratioD,\
+                           "SelfratioA":SelfratioA,"SelfratioB":SelfratioB,"SelfratioC":SelfratioC,"SelfratioD":SelfratioD,\
+                           "OtherratioA":OtherratioA,"OtherratioB":OtherratioB,"OtherratioC":OtherratioC,"OtherratioD":OtherratioD,\
+                           "TtosratioA":TtosratioA,"TtosratioB":TtosratioB,"TtosratioC":TtosratioC,"TtosratioD":TtosratioD,\
+                           "TtogratioA":TtogratioA,"TtogratioB":TtogratioB,"TtogratioC":TtogratioC,"TtogratioD":TtogratioD,"flag":flag}
                 return JsonResponse(content)

@@ -7,6 +7,7 @@ window.onload=function(){
 var course_id = -1;
 var theclass = -1;
 var theclassid = -1
+
 function mycourse()
 {
 	document.getElementById("myc").style.display="";//显示
@@ -613,6 +614,9 @@ function mark()//小班管理
 	document.getElementById("showallfile").style.display="none";
 	
 	document.getElementById("sst").style.display="none";
+	
+	document.getElementById("sg").disabled= false;
+	document.getElementById("eg").disabled= false;
 }
 
 function mark2()//大班管理
@@ -683,17 +687,17 @@ function showpreable(event)
 
 function confirmtsth(event)
 {
-	groupsum = prompt("请输入小组数:","5");
-	if (groupsum != null){
-	thetables(event, groupsum - 1);
+	groupsum1 = prompt("请输入小组人数:","5");
+	if (groupsum1 != null){
+	thetables(event, groupsum1 - 1);
 	}
 }
 
 function confirmtsth2(event)
 {
-	groupnum = prompt("请输入小组人数:","7");
-	if (groupnum != null){
-	thetables(event, groupnum - 1);
+	groupnum1 = prompt("请输入小组数:","7");
+	if (groupnum1 != null){
+	thetables(event, groupnum1 - 1);
 	}
 }
 
@@ -720,7 +724,7 @@ function thetables(event, event2)
 				" contentEditable=true>评价参考</td><td style = \"width:20%\">学生编号</td><td style = \"width:20%\">评价结果</td></tr>";
 		for(var i = 0; i < parseInt(event2); i++)
 		{
-			str9+="<tr><td contentEditable=true><input type=\'text\' style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
+			str9+="<tr><td contentEditable=true><input type=\'text\' name = \"s"+i.toString()+"\" style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
 				"<option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td> </tr> "
 		}
 		str9 += "</table>"; 
@@ -736,7 +740,7 @@ function thetables(event, event2)
 				" contentEditable=true>评价参考</td><td style = \"width:20%\">小组编号</td><td style = \"width:20%\">评价结果</td></tr>";
 		for(var i = 0; i < parseInt(event2); i++)
 		{
-			str9+="<tr><td contentEditable=true><input type=\'text\' style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
+			str9+="<tr><td contentEditable=true><input type=\'text\' name = \"g"+i.toString()+"\" style = \"width:100%\" onkeyup=\"(this.v=function(){this.value=this.value.replace(/[^0-9-]+/,\'\');}).call(this)\" onblur=\"this.v();\"></td><td><select style = \"width:100%\"><option value =1>A</option>"+
 				"<option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td> </tr> "
 		}
 		str9 += "</table>"; 
@@ -899,11 +903,11 @@ function thegrade()
 	document.getElementById("ggrade").style.display="none";
 	document.getElementById("thetable").style.display="none";
 	document.getElementById("mygrade").style.display="";
-	document.getElementById("subm2").style.display="none";
 	document.getElementById("stuavail").style.display="";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
 	document.getElementById("showallfile").style.display="none";
+	document.getElementById("zzz").style.display="none";
 	selectclass3();
 }
 
@@ -924,13 +928,9 @@ function selclas()
 		success: function(mydata){
 			
 			
-			document.getElementById("subm2").style.display="";
+			document.getElementById("zzz").style.display="";
 			document.getElementById("stuavail").style.display="none";
-			if(mydata["flag"] == 0)
-			{
-				document.getElementById("subm2").disabled= true;
-			}
-			str = "<div style = \"position:absolute;width:100%;top:5%\"><div class=\"panel-group\"><div class=\"panel panel-primary\"></div><table id = \"table20\" class=\"table table-bordered table-hover\"><thead><tr class=\"success\">  <th rowspan = 2>#</th>  <th rowspan = 2>学生编号</th> <th rowspan = 2>学生姓名</th><th colspan = 4>组内互评</th><th colspan = 4>组间互评</th><th colspan = 4>学生自评</th><th colspan = 4>其他评价</th><th colspan = 4>教师评价</th><th colspan = 4>教师组评</th><th rowspan = 2>教师总评</th> </tr><tr class=\"success\"><td>A</td>  <td>B</td>  <td>C</td>  <td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td></tr></thead><tbody>";
+			str = "<div style = \"position:absolute;width:100%;top:5%\"><div class=\"panel-group\"><div class=\"panel panel-primary\"></div><table id = \"table20\" class=\"table table-bordered table-hover\"><thead><tr class=\"success\">  <th rowspan = 2>#</th>  <th rowspan = 2>学生编号</th> <th rowspan = 2>学生姓名</th><th colspan = 4>组内互评</th><th colspan = 4>组间互评</th><th colspan = 4>学生自评</th><th colspan = 4>其他评价</th><th colspan = 4>教师评价</th><th colspan = 4>教师组评</th><th rowspan = 2>评分</th> </tr><tr class=\"success\"><td>A</td>  <td>B</td>  <td>C</td>  <td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td><td>A</td><td>B</td><td>C</td><td>D</td></tr></thead><tbody>";
 			
 			for(var i = 0; i < mydata["sum"];i++)
 			{
@@ -998,7 +998,7 @@ function selclas()
 						str += "<td></td>"
 					}
 				}
-				str += "<td><select style = \"width:100%\"><option value =-1></option><option value =1>A</option><option value =2>B</option><option value =3>C</option><option value =4>D</option></select></td>";
+				str += "<td>"+mydata["stugrade"][i].toString()+"</td>";
 				str += "</tr>"
 			}
 			str += "</tbody></table></div></div></div>";
@@ -1186,36 +1186,6 @@ function saveiscome()
 	});
 }
 
-function submitgrade2()
-{
-	
-	course = document.getElementById("selectcourse3").value
-	theclass = document.getElementById("rtrt3").value
-	
-	var grade = []
-	$("#t1 select option:selected").each(function () {
-		grade.push(this.text)
-	})
-	
-	var post_data ={
-		"courseid":course,
-		"theclass":theclass,
-		"grade":grade,
-		};
-	$.ajax({
-		type : "POST", //要插入数据，所以是POST协议 
-		url : "/teacher/classmark/", //注意结尾的斜线，否则会出现500错误
-		traditional:true,  //加上此项可以传数组
-		data : post_data, //JSON数据
-		success: function(mydata){
-			if(mydata["rr"] == 1)
-			{
-				alert("评分完成");
-			}
-		}
-	});
-}
-
 function exporttable()
 {
 	if(document.getElementById("table10"))
@@ -1359,7 +1329,6 @@ function all_file()
 	document.getElementById("ggrade").style.display="none";
 	document.getElementById("thetable").style.display="none";
 	document.getElementById("mygrade").style.display="none";
-	document.getElementById("subm2").style.display="none";
 	document.getElementById("stuavail").style.display="";
 	document.getElementById("largeclass").style.display="none";
 	document.getElementById("showlargeclass").style.display="none";
@@ -1412,3 +1381,134 @@ function senfile(){
 				'onUploadComplete' : function(file, data) {all_file();}
 			});
         }
+		
+function saveconfig()
+{
+	course = document.getElementById("selectcourse3").value
+	theclass = document.getElementById("rtrt3").value
+	
+	IngratioA = document.getElementById("IngratioA").value;
+	IngratioB = document.getElementById("IngratioB").value;
+	IngratioC = document.getElementById("IngratioC").value;
+	IngratioD = document.getElementById("IngratioD").value;
+	
+	TogratioA = document.getElementById("TogratioA").value;
+	TogratioB = document.getElementById("TogratioB").value;
+	TogratioC = document.getElementById("TogratioC").value;
+	TogratioD = document.getElementById("TogratioD").value;
+	
+	SelfratioA = document.getElementById("SelfratioA").value;
+	SelfratioB = document.getElementById("SelfratioB").value;
+	SelfratioC = document.getElementById("SelfratioC").value;
+	SelfratioD = document.getElementById("SelfratioD").value;
+	
+	OtherratioA = document.getElementById("OtherratioA").value;
+	OtherratioB = document.getElementById("OtherratioB").value;
+	OtherratioC = document.getElementById("OtherratioC").value;
+	OtherratioD = document.getElementById("OtherratioD").value;
+	
+	TtosratioA = document.getElementById("TtosratioA").value;
+	TtosratioB = document.getElementById("TtosratioB").value;
+	TtosratioC = document.getElementById("TtosratioC").value;
+	TtosratioD = document.getElementById("TtosratioD").value;
+	
+	TtogratioA = document.getElementById("TtogratioA").value;
+	TtogratioB = document.getElementById("TtogratioB").value;
+	TtogratioC = document.getElementById("TtogratioC").value;
+	TtogratioD = document.getElementById("TtogratioD").value;
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		
+		"IngratioA":IngratioA,
+		"IngratioB":IngratioB,
+		"IngratioC":IngratioC,
+		"IngratioD":IngratioD,
+		
+		"TogratioA":TogratioA,
+		"TogratioB":TogratioB,
+		"TogratioC":TogratioC,
+		"TogratioD":TogratioD,
+		
+		"SelfratioA":SelfratioA,
+		"SelfratioB":SelfratioB,
+		"SelfratioC":SelfratioC,
+		"SelfratioD":SelfratioD,
+		
+		"OtherratioA":OtherratioA,
+		"OtherratioB":OtherratioB,
+		"OtherratioC":OtherratioC,
+		"OtherratioD":OtherratioD,
+		
+		"TtosratioA":TtosratioA,
+		"TtosratioB":TtosratioB,
+		"TtosratioC":TtosratioC,
+		"TtosratioD":TtosratioD,
+		
+		"TtogratioA":TtogratioA,
+		"TtogratioB":TtogratioB,
+		"TtogratioC":TtogratioC,
+		"TtogratioD":TtogratioD,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/saveconfig/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+			alert("更新完成！");
+		}
+	});
+}
+
+function myconfig()
+{
+	course = document.getElementById("selectcourse3").value
+	theclass = document.getElementById("rtrt3").value
+	
+	var post_data ={
+		"courseid":course,
+		"theclass":theclass,
+		};
+	$.ajax({
+		type : "POST", //要插入数据，所以是POST协议 
+		url : "/teacher/myconfig/", //注意结尾的斜线，否则会出现500错误
+		traditional:true,  //加上此项可以传数组
+		data : post_data, //JSON数据
+		success: function(mydata){
+		if(mydata["flag"] == 1)
+			{
+				document.getElementById("IngratioA").value = mydata["IngratioA"];
+				document.getElementById("IngratioB").value= mydata["IngratioB"];
+				document.getElementById("IngratioC").value= mydata["IngratioC"];
+				document.getElementById("IngratioD").value= mydata["IngratioD"];
+					
+				document.getElementById("TogratioA").value = mydata["TogratioA"];
+				document.getElementById("TogratioB").value= mydata["TogratioB"];
+				document.getElementById("TogratioC").value= mydata["TogratioC"];
+				document.getElementById("TogratioD").value= mydata["TogratioD"];
+					
+				document.getElementById("SelfratioA").value = mydata["SelfratioA"];
+				document.getElementById("SelfratioB").value= mydata["SelfratioB"];
+				document.getElementById("SelfratioC").value= mydata["SelfratioC"];
+				document.getElementById("SelfratioD").value= mydata["SelfratioD"];
+					
+				document.getElementById("OtherratioA").value = mydata["OtherratioA"];
+				document.getElementById("OtherratioB").value= mydata["OtherratioB"];
+				document.getElementById("OtherratioC").value= mydata["OtherratioC"];
+				document.getElementById("OtherratioD").value= mydata["OtherratioD"];
+					
+				document.getElementById("TtosratioA").value = mydata["TtosratioA"];
+				document.getElementById("TtosratioB").value= mydata["TtosratioB"];
+				document.getElementById("TtosratioC").value= mydata["TtosratioC"];
+				document.getElementById("TtosratioD").value= mydata["TtosratioD"];
+					
+				document.getElementById("TtogratioA").value = mydata["TtogratioA"];
+				document.getElementById("TtogratioB").value= mydata["TtogratioB"];
+				document.getElementById("TtogratioC").value= mydata["TtogratioC"];
+				document.getElementById("TtogratioD").value= mydata["TtogratioD"];
+			}
+		}
+	});
+}

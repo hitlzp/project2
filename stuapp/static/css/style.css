@@ -301,6 +301,7 @@ h3{
 	li.resp-tab-item{
 		font-size:20px;
 	}
+	
   }
   @media screen and (max-width:1024px){
 	 h1 {
@@ -326,115 +327,7 @@ h3{
 		font-size:17px;
 	}
   }
-   @media screen and (max-width:991px){
-	.form{
-		min-height:400px;
-    }
-   }
-   @media screen and (max-width:900px){
-	.main-content {
-		width: 75%!important;
-	}
-	.form {
-		width: 63%;
-	}
-	.right {
-		width: 33%;
-	}
-   }
-   @media screen and (max-width:800px){
-	.main-content {
-		width: 80%!important;
-	}
-	.form {
-		width: 61%;
-		min-height:420px;
-	}
-	.right {
-		width: 35%;
-	}
-	
-	.right ul li p {
-    font-size: 15px;
-	}
-  }
-  @media screen and (max-width:768px){
-	.main-content {
-		width: 85%!important;
-		margin:50px auto;
-	}
-	.form {
-		width: 60%;
-	}
-	h3 {
-		margin-left: 24px;
-	}
-	.right {
-		width: 35%;
-	}
-   }
-    @media screen and (max-width:736px){
-	 .form {
-		width: 59%;
-	}
-	 .right {
-		width: 37%;
-	 }
-	.right h4 {
-		font-size:19px;
-	  } 
-	}
-	@media screen and (max-width:667px){
-	 .main-content {
-		width: 85%!important;
-		margin:20px auto;
-	 }
-	  .form {
-		width: 58%;
-	}
-	 h3 {
-		margin-left: 28px;
-	 }
-	 .register input[type="text"], .register input[type="password"] {
-		padding:7px;
-	 }
-	 .right{
-		padding-left:0px;
-	 }
-	.right h4 {
-		font-size:19px;
-	 } 
-	 .right ul li p {
-		font-size: 14px;
-     }
-     .socialicons {
-	   margin:10px 0px 0px 0px;
-     } 
-	  
-	}
-	@media screen and (max-width:640px){
-     .right ul li p {
-		font-size: 13px;
-		padding-bottom:15px;
-     }
-	}
-    @media screen and (max-width:600px){
-	.form {
-		width: 56%;
-	}
-	h3 {
-		margin-left: 15px;
-	}
-	.right {
-		width: 39%;
-	}
-	.right h4 {
-		font-size: 18px;
-	}
-	.socialicons ul li a {
-         width: 42px;
-	}
-   }
+
    @media screen and (max-width:568px){
 	h1 {
 		font-size: 35px;

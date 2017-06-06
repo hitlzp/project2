@@ -277,6 +277,24 @@ function stugrade()
 			{
 				document.getElementById("pretable").innerHTML = mydata["mytable"];
 				document.getElementById("qqqq").click();
+				
+				for(var i = 0; i < mydata["groupsum"]; i++)
+				{
+					ww = document.getElementsByName("s"+i.toString());
+					for(var k = 0; k < ww.length;k++)
+					{
+						ww[k].value = (mydata["groupmemid"][i] + 10000000).toString();
+					}
+				}
+				for(var i = 0; i < mydata["thegroupsum"]; i++)
+				{
+					ww = document.getElementsByName("g"+i.toString());
+					for(var k = 0; k < ww.length;k++)
+					{
+						ww[k].value = mydata["thegroupid"][i];
+					}
+				}
+				
 			}
 			else
 			{
