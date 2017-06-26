@@ -593,6 +593,12 @@ def showgradetable(request):
                 classid = myclass[0].id
                 all_group = Group.objects.filter(course_id = classid)
                 i = 0
+
+                if not Config.objects.filter(theclass_id = classid):
+                    add = Config(
+                                theclass_id = classid,
+                                 )
+                    add.save()
                 con = Config.objects.filter(theclass_id = classid)
                 if con:
                     for group in all_group:
@@ -1008,3 +1014,4 @@ def Myconfig(request):
                            "TtosratioA":TtosratioA,"TtosratioB":TtosratioB,"TtosratioC":TtosratioC,"TtosratioD":TtosratioD,\
                            "TtogratioA":TtogratioA,"TtogratioB":TtogratioB,"TtogratioC":TtogratioC,"TtogratioD":TtogratioD,"flag":flag}
                 return JsonResponse(content)
+            

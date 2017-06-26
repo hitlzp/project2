@@ -356,15 +356,22 @@ function selectclass3()
 			{
 				str+="<th>第"+mydata["allminclassnumber"][k].toString()+"讲</th>";
 			}
-			str+= "</tr></thead><tbody>";
+			str+= "<th>总分</th></tr></thead><tbody>";
 			for(var j = 0;j < mydata["sum"];j++)
 			{
 				str += "<tr><td>"+(j+1).toString()+"</td><td>"+(mydata["stuid"][j]+10000000).toString()+"</td><td>"+mydata["stuname"][j]+"</td><td>"+mydata["minclassnum"][j].toString()+"</td><td>"+mydata["maxclassnum"][j].toString()+"</td>";
 				
+				var sum2 = 0;
 				for(var k = 0; k < mydata["classsum"];k++)
 				{
 					str+="<td>"+mydata["classgrade"][k][j].toString()+"</td>";
+					if (mydata["classgrade"][k][j] != "")
+					{
+						sum2 += parseFloat(mydata["classgrade"][k][j]);
+					}
+					
 				}
+				str+="<td>"+sum2.toString()+"</td>";
 				str+="</tr>";
 			}
 			
